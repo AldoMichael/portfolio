@@ -96,8 +96,8 @@ export function Contact() {
                   <Icon className="h-5 w-5" />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-xs uppercase tracking-[0.18em] text-white/35">{card.label}</p>
-                  <p className="truncate text-sm text-white/80">{card.value}</p>
+                  <p className="text-xs uppercase tracking-[0.18em] text-ink/35">{card.label}</p>
+                  <p className="truncate text-sm text-ink/80">{card.value}</p>
                 </div>
               </div>
             )
@@ -118,7 +118,7 @@ export function Contact() {
           {/* Réseaux sociaux */}
           <Reveal delay={0.3}>
             <div className="glass-card p-5">
-              <p className="mb-4 text-xs uppercase tracking-[0.18em] text-white/35">Réseaux</p>
+              <p className="mb-4 text-xs uppercase tracking-[0.18em] text-ink/35">Réseaux</p>
               <div className="flex gap-3">
                 {socials.map((social) => {
                   const Icon = socialIcons[social.icon]
@@ -129,7 +129,7 @@ export function Contact() {
                       target="_blank"
                       rel="noreferrer noopener"
                       aria-label={social.label}
-                      className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 text-white/60 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:text-accent hover:shadow-glow-sm"
+                      className="flex h-11 w-11 items-center justify-center rounded-xl border border-ink/10 text-ink/60 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:text-accent hover:shadow-glow-sm"
                     >
                       <Icon className="h-5 w-5" />
                     </a>
@@ -151,7 +151,7 @@ export function Contact() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.96 }}
                   transition={{ duration: 0.35, ease: EASE }}
-                  className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-night-900/95 backdrop-blur-sm"
+                  className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-page-2/95 backdrop-blur-sm"
                 >
                   <motion.span
                     initial={{ scale: 0, rotate: -30 }}
@@ -161,10 +161,10 @@ export function Contact() {
                   >
                     <CheckCircle2 className="h-8 w-8" />
                   </motion.span>
-                  <h3 className="font-display text-xl font-semibold text-white">
+                  <h3 className="font-display text-xl font-semibold text-ink">
                     {'Message prêt\u00A0!'}
                   </h3>
-                  <p className="max-w-xs text-center text-sm text-white/55">
+                  <p className="max-w-xs text-center text-sm text-ink/55">
                     Votre logiciel de messagerie vient de s’ouvrir avec le message pré-rempli. Il ne
                     reste plus qu’à l’envoyer.
                   </p>
@@ -233,9 +233,9 @@ export function Contact() {
                   </motion.button>
                 </Magnetic>
 
-                <p className="text-xs text-white/35">
+                <p className="text-xs text-ink/35">
                   Réponse sous 48 h — ou écrivez directement à{' '}
-                  <a href={`mailto:${profile.email}`} className="link-underline text-white/60">
+                  <a href={`mailto:${profile.email}`} className="link-underline text-ink/60">
                     {profile.email}
                   </a>
                 </p>
@@ -274,17 +274,17 @@ function Field({
   onChange,
   onBlur,
 }: FieldProps) {
-  const baseClass = `peer w-full rounded-xl border bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/25 transition-colors duration-300 focus:outline-none ${
+  const baseClass = `peer w-full rounded-xl border bg-ink/[0.03] px-4 py-3 text-sm text-ink placeholder:text-ink/25 transition-colors duration-300 focus:outline-none ${
     error
       ? 'border-rose-500/60 focus:border-rose-400'
       : valid
         ? 'border-emerald-500/50 focus:border-emerald-400'
-        : 'border-white/10 focus:border-accent/70'
+        : 'border-ink/10 focus:border-accent/70'
   }`
 
   return (
     <div>
-      <label htmlFor={id} className="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/40">
+      <label htmlFor={id} className="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-ink/40">
         {label}
         {valid && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />}
       </label>

@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Palette « nuit profonde »
+        // Palette « nuit profonde » (conservée pour le bouton primaire)
         night: {
           950: '#05070d',
           900: '#080b14',
@@ -13,6 +13,13 @@ export default {
           700: '#131a2c',
           600: '#1b2438',
         },
+        // Fond et texte sémantiques : basculent avec le thème clair / sombre
+        page: {
+          DEFAULT: 'rgb(var(--bg) / <alpha-value>)',
+          2: 'rgb(var(--bg-2) / <alpha-value>)',
+          3: 'rgb(var(--bg-3) / <alpha-value>)',
+        },
+        ink: 'rgb(var(--fg) / <alpha-value>)',
         // La couleur d'accent est pilotée par une variable CSS (--accent)
         // pour pouvoir être changée à chaud depuis l'interface.
         accent: {
@@ -36,7 +43,7 @@ export default {
       },
       backgroundImage: {
         'grid-fade':
-          'linear-gradient(to bottom, transparent, rgb(5 7 13) 90%), linear-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.04) 1px, transparent 1px)',
+          'linear-gradient(to bottom, transparent, rgb(var(--bg) / 1) 90%), linear-gradient(rgb(var(--fg) / 0.04) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--fg) / 0.04) 1px, transparent 1px)',
         'accent-gradient':
           'linear-gradient(135deg, rgb(var(--accent)) 0%, rgb(var(--accent-soft)) 100%)',
       },

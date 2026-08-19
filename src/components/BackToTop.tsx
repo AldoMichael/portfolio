@@ -20,7 +20,7 @@ export function BackToTop() {
           exit={{ opacity: 0, scale: 0.6, y: 20 }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.92 }}
-          className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-night-800/80 text-accent backdrop-blur-md transition-colors hover:border-accent/60 hover:shadow-glow-sm"
+          className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-ink/10 bg-page-3/80 text-accent backdrop-blur-md transition-colors hover:border-accent/60 hover:shadow-glow-sm"
         >
           <ArrowUp className="h-5 w-5" />
         </motion.button>

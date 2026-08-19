@@ -45,8 +45,8 @@ export function Projects() {
                   {project.date}
                 </span>
                 <span
-                  className={`flex h-9 w-9 items-center justify-center rounded-xl border bg-white/[0.04] text-accent transition-colors duration-300 ${
-                    link ? 'border-accent/30 group-hover/tilt:bg-accent/15' : 'border-white/10'
+                  className={`flex h-9 w-9 items-center justify-center rounded-xl border bg-ink/[0.04] text-accent transition-colors duration-300 ${
+                    link ? 'border-accent/30 group-hover/tilt:bg-accent/15' : 'border-ink/10'
                   }`}
                 >
                   {link ? (
@@ -57,32 +57,32 @@ export function Projects() {
                 </span>
               </div>
 
-              <h3 className="font-display text-lg font-semibold leading-snug text-white">
+              <h3 className="font-display text-lg font-semibold leading-snug text-ink">
                 {project.title}
               </h3>
 
-              <p className="mt-2 inline-flex items-center gap-2 text-sm text-white/45">
+              <p className="mt-2 inline-flex items-center gap-2 text-sm text-ink/45">
                 <MapPin className="h-3.5 w-3.5" />
                 {project.client} — {project.location}
               </p>
 
-              <p className="mt-4 text-sm leading-relaxed text-white/60">{project.summary}</p>
+              <p className="mt-4 text-sm leading-relaxed text-ink/60">{project.summary}</p>
 
               <ul className="mt-5 flex-1 space-y-2">
                 {project.highlights.map((highlight) => (
-                  <li key={highlight} className="flex gap-3 text-sm leading-relaxed text-white/55">
+                  <li key={highlight} className="flex gap-3 text-sm leading-relaxed text-ink/55">
                     <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent/80" />
                     {highlight}
                   </li>
                 ))}
               </ul>
 
-              <div className="mt-6 border-t border-white/5 pt-5">
+              <div className="mt-6 border-t border-ink/5 pt-5">
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-md bg-white/[0.05] px-2.5 py-1 text-[11px] uppercase tracking-wider text-white/45"
+                      className="rounded-md bg-ink/[0.05] px-2.5 py-1 text-[11px] uppercase tracking-wider text-ink/45"
                     >
                       {tag}
                     </span>

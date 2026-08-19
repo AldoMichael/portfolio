@@ -42,7 +42,7 @@ export function Loader({ onComplete }: LoaderProps) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-night-950"
+      className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-page"
       initial={{ opacity: 1 }}
       exit={{ y: '-100%', transition: { duration: 0.8, ease: EASE } }}
     >
@@ -60,12 +60,12 @@ export function Loader({ onComplete }: LoaderProps) {
           </span>
         </div>
 
-        <p className="font-mono text-xs uppercase tracking-[0.4em] text-white/40">
+        <p className="font-mono text-xs uppercase tracking-[0.4em] text-ink/40">
           Chargement du portfolio
         </p>
 
         {/* Barre de progression */}
-        <div className="h-px w-56 overflow-hidden bg-white/10">
+        <div className="h-px w-56 overflow-hidden bg-ink/10">
           <motion.div
             className="h-full bg-accent"
             style={{ width: `${Math.min(progress, 100)}%` }}
@@ -73,7 +73,7 @@ export function Loader({ onComplete }: LoaderProps) {
           />
         </div>
 
-        <span className="font-mono text-sm text-white/60">
+        <span className="font-mono text-sm text-ink/60">
           {String(Math.min(Math.round(progress), 100)).padStart(3, '0')}%
         </span>
       </motion.div>

@@ -32,7 +32,7 @@ export function Experience() {
     >
       <div ref={containerRef} className="relative pl-8 sm:pl-12">
         {/* Rail de la timeline */}
-        <div className="absolute bottom-0 left-[7px] top-2 w-px bg-white/10 sm:left-[15px]" />
+        <div className="absolute bottom-0 left-[7px] top-2 w-px bg-ink/10 sm:left-[15px]" />
         <motion.div
           aria-hidden
           style={{ scaleY: reduceMotion ? 1 : lineScale }}
@@ -68,12 +68,12 @@ function TimelineItem({ item, index }: { item: ExperienceItem; index: number }) 
         animate={inView ? { scale: 1, opacity: 1 } : undefined}
         transition={{ duration: 0.5, ease: EASE }}
         className={`absolute -left-8 top-2 flex h-4 w-4 items-center justify-center rounded-full border sm:-left-12 ${
-          inView ? 'border-accent bg-accent/20' : 'border-white/20 bg-night-800'
+          inView ? 'border-accent bg-accent/20' : 'border-ink/20 bg-page-3'
         }`}
       >
         <span
           className={`h-1.5 w-1.5 rounded-full transition-colors duration-500 ${
-            inView ? 'bg-accent shadow-glow-sm' : 'bg-white/30'
+            inView ? 'bg-accent shadow-glow-sm' : 'bg-ink/30'
           }`}
         />
         {item.current && inView && (
@@ -111,27 +111,27 @@ function TimelineItem({ item, index }: { item: ExperienceItem; index: number }) 
           )}
         </div>
 
-        <h3 className="mt-3 flex items-center gap-2 font-display text-xl font-semibold text-white sm:text-2xl">
+        <h3 className="mt-3 flex items-center gap-2 font-display text-xl font-semibold text-ink sm:text-2xl">
           {item.role}
           {link && (
             <ArrowUpRight className="h-5 w-5 shrink-0 text-accent transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           )}
         </h3>
 
-        <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-white/50">
+        <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-ink/50">
           <span className="inline-flex items-center gap-2">
-            <Building2 className="h-4 w-4 text-white/30" />
+            <Building2 className="h-4 w-4 text-ink/30" />
             {item.company}
           </span>
           <span className="inline-flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-white/30" />
+            <MapPin className="h-4 w-4 text-ink/30" />
             {item.location}
           </span>
         </div>
 
         <ul className="mt-5 space-y-2.5">
           {item.tasks.map((task) => (
-            <li key={task} className="flex gap-3 text-sm leading-relaxed text-white/60">
+            <li key={task} className="flex gap-3 text-sm leading-relaxed text-ink/60">
               <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent/70" />
               {task}
             </li>
@@ -143,7 +143,7 @@ function TimelineItem({ item, index }: { item: ExperienceItem; index: number }) 
             {item.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 text-xs text-white/50 transition-colors hover:border-accent/40 hover:text-accent"
+                className="rounded-md border border-ink/10 bg-ink/[0.03] px-2.5 py-1 text-xs text-ink/50 transition-colors hover:border-accent/40 hover:text-accent"
               >
                 {tag}
               </span>

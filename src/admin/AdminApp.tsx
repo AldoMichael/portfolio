@@ -12,6 +12,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { AlertCircle, ArrowLeft, LayoutGrid, Loader2, LockKeyhole, LogOut } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { apiRequest, getToken, setToken } from '../lib/api'
+import { ThemeToggle } from '../components/ThemeToggle'
 import { ResourceEditor } from './ResourceEditor'
 import type { ResourceDef } from './types'
 
@@ -39,7 +40,7 @@ export default function AdminApp() {
 
   if (checking) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-night-950">
+      <div className="flex min-h-screen items-center justify-center bg-page">
         <Loader2 className="h-6 w-6 animate-spin text-accent" />
       </div>
     )
@@ -80,7 +81,10 @@ function Login({ onSuccess }: { onSuccess: (email: string) => void }) {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-night-950 px-5">
+    <div className="relative flex min-h-screen items-center justify-center bg-page px-5">
+      <div className="absolute right-5 top-5">
+        <ThemeToggle />
+      </div>
       <motion.form
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -92,14 +96,14 @@ function Login({ onSuccess }: { onSuccess: (email: string) => void }) {
           <LockKeyhole className="h-5 w-5" />
         </span>
 
-        <h1 className="font-display text-2xl font-bold text-white">Administration</h1>
-        <p className="mt-1.5 text-sm text-white/45">
+        <h1 className="font-display text-2xl font-bold text-ink">Administration</h1>
+        <p className="mt-1.5 text-sm text-ink/45">
           Connectez-vous pour gérer le contenu du portfolio.
         </p>
 
         <div className="mt-7 space-y-4">
           <label className="block">
-            <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/45">
+            <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-ink/45">
               Email
             </span>
             <input
@@ -108,12 +112,12 @@ function Login({ onSuccess }: { onSuccess: (email: string) => void }) {
               autoComplete="username"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-night-900/60 px-3.5 py-2.5 text-sm text-white outline-none transition-colors focus:border-accent/60"
+              className="w-full rounded-xl border border-ink/10 bg-page-2/60 px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-accent/60"
             />
           </label>
 
           <label className="block">
-            <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/45">
+            <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-ink/45">
               Mot de passe
             </span>
             <input
@@ -122,7 +126,7 @@ function Login({ onSuccess }: { onSuccess: (email: string) => void }) {
               autoComplete="current-password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-night-900/60 px-3.5 py-2.5 text-sm text-white outline-none transition-colors focus:border-accent/60"
+              className="w-full rounded-xl border border-ink/10 bg-page-2/60 px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-accent/60"
             />
           </label>
         </div>
@@ -174,24 +178,25 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
   const active = resources.find((resource) => resource.key === activeKey)
 
   return (
-    <div className="min-h-screen bg-night-950">
+    <div className="min-h-screen bg-page">
       {/* Barre supérieure */}
-      <header className="sticky top-0 z-20 border-b border-white/10 bg-night-950/85 backdrop-blur-md">
+      <header className="sticky top-0 z-20 border-b border-ink/10 bg-page/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-5 py-4 sm:px-8">
-          <span className="flex items-center gap-2.5 font-display font-bold text-white">
+          <span className="flex items-center gap-2.5 font-display font-bold text-ink">
             <LayoutGrid className="h-5 w-5 text-accent" />
             Contenu du portfolio
           </span>
 
           <div className="ml-auto flex items-center gap-4">
-            <span className="hidden text-sm text-white/40 sm:inline">{email}</span>
+            <ThemeToggle />
+            <span className="hidden text-sm text-ink/40 sm:inline">{email}</span>
             <a href="/" className="link-underline text-sm">
               Voir le site
             </a>
             <button
               type="button"
               onClick={onLogout}
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm text-white/70 transition-colors hover:border-rose-400/50 hover:text-rose-300"
+              className="inline-flex items-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-sm text-ink/70 transition-colors hover:border-rose-400/50 hover:text-rose-300"
             >
               <LogOut className="h-3.5 w-3.5" />
               Déconnexion
@@ -212,7 +217,7 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
                   className={`w-full whitespace-nowrap rounded-xl px-4 py-2.5 text-left text-sm font-medium transition-colors ${
                     resource.key === activeKey
                       ? 'bg-accent/10 text-accent'
-                      : 'text-white/50 hover:bg-white/5 hover:text-white'
+                      : 'text-ink/50 hover:bg-ink/5 hover:text-ink'
                   }`}
                 >
                   {resource.label}

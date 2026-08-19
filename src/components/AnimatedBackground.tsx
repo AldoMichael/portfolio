@@ -36,7 +36,10 @@ export function AnimatedBackground() {
     /** Lit la couleur d'accent courante depuis les variables CSS */
     const readAccent = () =>
       getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '59 130 246'
+    const readFg = () =>
+      getComputedStyle(document.documentElement).getPropertyValue('--fg').trim() || '255 255 255'
     let accent = readAccent()
+    let fg = readFg()
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -65,7 +68,10 @@ export function AnimatedBackground() {
       ctx.clearRect(0, 0, width, height)
 
       // Rafraîchit l'accent toutes les 60 frames (au cas où il change)
-      if (frame % 60 === 0) accent = readAccent()
+      if (frame % 60 === 0) {
+        accent = readAccent()
+        fg = readFg()
+      }
       frame += 1
 
       for (const p of particles) {
@@ -101,7 +107,7 @@ export function AnimatedBackground() {
             ctx.beginPath()
             ctx.moveTo(a.x, a.y)
             ctx.lineTo(b.x, b.y)
-            ctx.strokeStyle = `rgba(255, 255, 255, ${0.09 * (1 - dist / 120)})`
+            ctx.strokeStyle = `rgba(${fg.replace(/\s+/g, ',')}, ${0.12 * (1 - dist / 120)})`
             ctx.lineWidth = 0.6
             ctx.stroke()
           }
@@ -155,7 +161,7 @@ export function AnimatedBackground() {
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full mask-radial" />
 
       {/* Dégradé de raccord vers la section suivante */}
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-night-950" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-page" />
     </div>
   )
 }

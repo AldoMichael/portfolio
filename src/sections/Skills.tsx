@@ -44,8 +44,8 @@ export function Skills() {
                   <Icon className="h-5 w-5" />
                 </span>
                 <div>
-                  <h3 className="font-display text-lg font-semibold text-white">{group.title}</h3>
-                  <p className="mt-1 text-sm text-white/45">{group.description}</p>
+                  <h3 className="font-display text-lg font-semibold text-ink">{group.title}</h3>
+                  <p className="mt-1 text-sm text-ink/45">{group.description}</p>
                 </div>
               </motion.div>
 
@@ -53,7 +53,7 @@ export function Skills() {
               <ul className="flex flex-wrap gap-2">
                 {group.items.map((item) => (
                   <motion.li key={item} variants={popIn}>
-                    <span className="inline-flex cursor-default items-center rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-sm text-white/75 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/10 hover:text-accent">
+                    <span className="inline-flex cursor-default items-center rounded-lg border border-ink/10 bg-ink/[0.04] px-3 py-1.5 text-sm text-ink/75 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/10 hover:text-accent">
                       {item}
                     </span>
                   </motion.li>

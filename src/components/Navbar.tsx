@@ -6,6 +6,7 @@ import { useActiveSection } from '../hooks/useActiveSection'
 import { useScrolled } from '../hooks/useScrolled'
 import { useAccent } from '../hooks/useAccent'
 import { EASE } from '../lib/motion'
+import { ThemeToggle } from './ThemeToggle'
 
 // Liste stable des ancres observées (évite de recréer le tableau à chaque rendu)
 const SECTION_IDS = navItems.map((item) => item.id)
@@ -33,7 +34,7 @@ export function Navbar() {
         transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
           scrolled
-            ? 'border-b border-white/10 bg-night-950/80 py-3 backdrop-blur-xl'
+            ? 'border-b border-ink/10 bg-page/80 py-3 backdrop-blur-xl'
             : 'border-b border-transparent py-5'
         }`}
       >
@@ -47,9 +48,9 @@ export function Navbar() {
             <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-accent/40 bg-accent/10 font-display text-sm font-bold text-accent transition-transform duration-300 group-hover:scale-110 group-hover:shadow-glow-sm">
               {profile.initials}
             </span>
-            <span className="hidden font-display text-sm font-semibold tracking-tight text-white sm:block">
+            <span className="hidden font-display text-sm font-semibold tracking-tight text-ink sm:block">
               {profile.firstName.split(' ')[0]}{' '}
-              <span className="text-white/40">{profile.lastName}</span>
+              <span className="text-ink/40">{profile.lastName}</span>
             </span>
           </a>
 
@@ -60,7 +61,7 @@ export function Navbar() {
                 <a
                   href={`#${item.id}`}
                   className={`relative block rounded-full px-4 py-2 text-sm font-medium transition-colors duration-300 ${
-                    active === item.id ? 'text-white' : 'text-white/55 hover:text-white'
+                    active === item.id ? 'text-ink' : 'text-ink/55 hover:text-ink'
                   }`}
                 >
                   {/* Pastille de section active partagée entre les liens */}
@@ -78,6 +79,8 @@ export function Navbar() {
           </ul>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
+
             {/* Sélecteur de couleur d'accent */}
             <div className="relative">
               <button
@@ -85,7 +88,7 @@ export function Navbar() {
                 onClick={() => setPaletteOpen((open) => !open)}
                 aria-label="Changer la couleur d'accent"
                 aria-expanded={paletteOpen}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/70 transition-colors hover:border-accent/50 hover:text-accent"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 text-ink/70 transition-colors hover:border-accent/50 hover:text-accent"
               >
                 <Palette className="h-4 w-4" />
               </button>
@@ -97,7 +100,7 @@ export function Navbar() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -8, scale: 0.95 }}
                     transition={{ duration: 0.2, ease: EASE }}
-                    className="absolute right-0 top-12 z-50 flex gap-2 rounded-2xl border border-white/10 bg-night-800/95 p-3 backdrop-blur-xl"
+                    className="absolute right-0 top-12 z-50 flex gap-2 rounded-2xl border border-ink/10 bg-page-3/95 p-3 backdrop-blur-xl"
                   >
                     {presets.map((preset, index) => (
                       <button
@@ -111,7 +114,7 @@ export function Navbar() {
                         }}
                         style={{ backgroundColor: `rgb(${preset.value})` }}
                         className={`h-6 w-6 rounded-full transition-transform duration-200 hover:scale-125 ${
-                          accentIndex === index ? 'ring-2 ring-white/80 ring-offset-2 ring-offset-night-800' : ''
+                          accentIndex === index ? 'ring-2 ring-ink/80 ring-offset-2 ring-offset-page-3' : ''
                         }`}
                       />
                     ))}
@@ -124,7 +127,7 @@ export function Navbar() {
             <a
               href={profile.cvUrl}
               download
-              className="hidden items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-white/85 transition-all duration-300 hover:border-accent/60 hover:text-accent sm:inline-flex"
+              className="hidden items-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-sm font-medium text-ink/85 transition-all duration-300 hover:border-accent/60 hover:text-accent sm:inline-flex"
             >
               <Download className="h-4 w-4" />
               CV
@@ -135,10 +138,10 @@ export function Navbar() {
               type="button"
               onClick={() => setMenuOpen(true)}
               aria-label="Ouvrir le menu"
-              className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-white/10 transition-colors hover:border-accent/50 lg:hidden"
+              className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-ink/10 transition-colors hover:border-accent/50 lg:hidden"
             >
-              <span className="block h-px w-4 bg-white/80" />
-              <span className="block h-px w-4 bg-white/80" />
+              <span className="block h-px w-4 bg-ink/80" />
+              <span className="block h-px w-4 bg-ink/80" />
             </button>
           </div>
         </nav>
@@ -152,14 +155,14 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[70] bg-night-950/95 backdrop-blur-xl lg:hidden"
+            className="fixed inset-0 z-[70] bg-page/95 backdrop-blur-xl lg:hidden"
           >
             <div className="container-page flex h-20 items-center justify-end">
               <button
                 type="button"
                 onClick={() => setMenuOpen(false)}
                 aria-label="Fermer le menu"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/80 transition-colors hover:border-accent/60 hover:text-accent"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 text-ink/80 transition-colors hover:border-accent/60 hover:text-accent"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -182,7 +185,7 @@ export function Navbar() {
                   <a
                     href={`#${item.id}`}
                     onClick={() => setMenuOpen(false)}
-                    className="flex items-baseline gap-4 border-b border-white/5 py-4 font-display text-3xl font-bold text-white/85 transition-colors hover:text-accent"
+                    className="flex items-baseline gap-4 border-b border-ink/5 py-4 font-display text-3xl font-bold text-ink/85 transition-colors hover:text-accent"
                   >
                     <span className="font-mono text-xs text-accent/70">
                       {String(index + 1).padStart(2, '0')}

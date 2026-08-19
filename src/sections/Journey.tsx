@@ -29,22 +29,22 @@ export function Journey() {
               <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-accent/30 bg-accent/10 text-accent">
                 <GraduationCap className="h-5 w-5" />
               </span>
-              <h3 className="font-display text-xl font-semibold text-white">Formation</h3>
+              <h3 className="font-display text-xl font-semibold text-ink">Formation</h3>
             </header>
 
             <ul className="space-y-6">
               {education.map((item) => (
-                <li key={item.degree} className="relative border-l border-white/10 pl-6">
+                <li key={item.degree} className="relative border-l border-ink/10 pl-6">
                   <span className="absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full bg-accent" />
                   <span className="font-mono text-xs uppercase tracking-widest text-accent">
                     {item.year}
                   </span>
-                  <h4 className="mt-2 font-display text-lg font-semibold text-white">
+                  <h4 className="mt-2 font-display text-lg font-semibold text-ink">
                     {item.degree}
                   </h4>
-                  <p className="mt-1 text-sm text-white/50">{item.school}</p>
+                  <p className="mt-1 text-sm text-ink/50">{item.school}</p>
                   {item.detail && (
-                    <p className="mt-2 text-sm leading-relaxed text-white/45">{item.detail}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-ink/45">{item.detail}</p>
                   )}
                 </li>
               ))}
@@ -59,7 +59,7 @@ export function Journey() {
               <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-accent/30 bg-accent/10 text-accent">
                 <LanguagesIcon className="h-5 w-5" />
               </span>
-              <h3 className="font-display text-xl font-semibold text-white">Langues</h3>
+              <h3 className="font-display text-xl font-semibold text-ink">Langues</h3>
             </header>
 
             <ul className="space-y-7">
@@ -96,12 +96,12 @@ function LanguageBar({ name, level, value, delay }: LanguageBarProps) {
   return (
     <li ref={ref}>
       <div className="mb-2 flex items-baseline justify-between">
-        <span className="font-display text-base font-semibold text-white">{name}</span>
-        <span className="text-sm text-white/45">{level}</span>
+        <span className="font-display text-base font-semibold text-ink">{name}</span>
+        <span className="text-sm text-ink/45">{level}</span>
       </div>
 
       <div
-        className="h-2 w-full overflow-hidden rounded-full bg-white/[0.06]"
+        className="h-2 w-full overflow-hidden rounded-full bg-ink/[0.06]"
         role="progressbar"
         aria-valuenow={value}
         aria-valuemin={0}

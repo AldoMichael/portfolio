@@ -27,7 +27,7 @@ createRoot(container).render(
         <Route
           path="/admin/*"
           element={
-            <Suspense fallback={<div className="min-h-screen bg-night-950" />}>
+            <Suspense fallback={<div className="min-h-screen bg-page" />}>
               <AdminApp />
             </Suspense>
           }

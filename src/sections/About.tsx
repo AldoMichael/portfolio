@@ -29,7 +29,7 @@ export function About() {
         <div className="space-y-6">
           {about.paragraphs.map((paragraph, index) => (
             <Reveal key={index} delay={index * 0.12}>
-              <p className="text-base leading-relaxed text-white/60 sm:text-lg">{paragraph}</p>
+              <p className="text-base leading-relaxed text-ink/60 sm:text-lg">{paragraph}</p>
             </Reveal>
           ))}
 
@@ -41,10 +41,10 @@ export function About() {
                 <Reveal key={stat.label} delay={0.1 + index * 0.08}>
                   <div className="glass-card h-full p-4">
                     <Icon className="mb-3 h-4 w-4 text-accent" />
-                    <p className="font-display text-3xl font-bold text-white">
+                    <p className="font-display text-3xl font-bold text-ink">
                       <Counter value={stat.value} suffix={stat.suffix} />
                     </p>
-                    <p className="mt-1 text-xs leading-snug text-white/45">{stat.label}</p>
+                    <p className="mt-1 text-xs leading-snug text-ink/45">{stat.label}</p>
                   </div>
                 </Reveal>
               )
@@ -60,15 +60,15 @@ export function About() {
             className="glass-card overflow-hidden"
           >
             {/* Barre de fenêtre */}
-            <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.02] px-4 py-3">
+            <div className="flex items-center gap-2 border-b border-ink/10 bg-ink/[0.02] px-4 py-3">
               <span className="h-2.5 w-2.5 rounded-full bg-rose-400/70" />
               <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
-              <span className="ml-2 font-mono text-xs text-white/35">profil.ts</span>
+              <span className="ml-2 font-mono text-xs text-ink/35">profil.ts</span>
             </div>
 
             {/* Extrait de code décoratif */}
-            <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-relaxed text-white/60 no-scrollbar">
+            <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-relaxed text-ink/60 no-scrollbar">
               <code>
                 <span className="text-accent">const</span> profil = {'{'}
                 {'\n'} nom: <span className="text-emerald-300/80">'{profile.lastName}'</span>,

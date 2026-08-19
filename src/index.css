@@ -8,15 +8,27 @@
    l'opacité Tailwind (ex. bg-accent/20) et modifiable à chaud.
    ============================================================= */
 @layer base {
-  :root {
+  :root,
+  html.dark {
     --accent: 59 130 246; /* bleu (par défaut) */
     --accent-soft: 96 165 250;
+    --bg: 5 7 13;
+    --bg-2: 8 11 20;
+    --bg-3: 12 17 32;
+    --fg: 255 255 255;
     --cursor-x: 50vw;
     --cursor-y: 50vh;
   }
 
+  html.light {
+    --bg: 244 247 251;
+    --bg-2: 255 255 255;
+    --bg-3: 232 238 246;
+    --fg: 15 23 42;
+  }
+
   * {
-    @apply border-white/10;
+    @apply border-ink/10;
   }
 
   html {
@@ -27,15 +39,16 @@
   }
 
   body {
-    @apply bg-night-950 font-sans text-white/70 antialiased;
+    @apply bg-page font-sans text-ink/70 antialiased;
     overflow-x: hidden;
+    transition: background-color 0.35s ease, color 0.35s ease;
   }
 
   h1,
   h2,
   h3,
   h4 {
-    @apply font-display font-bold text-white;
+    @apply font-display font-bold text-ink;
     text-wrap: balance;
   }
 
@@ -48,10 +61,10 @@
     width: 10px;
   }
   ::-webkit-scrollbar-track {
-    @apply bg-night-950;
+    @apply bg-page;
   }
   ::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-white/10;
+    @apply rounded-full bg-ink/10;
   }
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-accent/60;
@@ -59,7 +72,7 @@
 
   /* Accessibilité : focus visible */
   :focus-visible {
-    @apply outline-none ring-2 ring-accent/70 ring-offset-2 ring-offset-night-950;
+    @apply outline-none ring-2 ring-accent/70 ring-offset-2 ring-offset-page;
   }
 
   /* Respect de la préférence système « animations réduites » :
@@ -87,20 +100,28 @@
 
   /* Carte « verre dépoli » utilisée un peu partout */
   .glass-card {
-    @apply relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm transition-colors duration-300;
+    @apply relative rounded-2xl border border-ink/10 bg-ink/[0.03] backdrop-blur-sm transition-colors duration-300;
   }
   .glass-card:hover {
-    @apply border-accent/40 bg-white/[0.05];
+    @apply border-accent/40 bg-ink/[0.05];
+  }
+
+  html.light .glass-card {
+    @apply bg-page-2 shadow-sm;
+    border-color: rgb(15 23 42 / 0.08);
+  }
+  html.light .glass-card:hover {
+    @apply bg-page-2;
   }
 
   /* Petite étiquette (catégorie de section, badges) */
   .chip {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-white/60;
+    @apply inline-flex items-center gap-2 rounded-full border border-ink/10 bg-ink/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-ink/60;
   }
 
   /* Lien avec soulignement animé */
   .link-underline {
-    @apply relative inline-block text-white/70 transition-colors duration-300 hover:text-white;
+    @apply relative inline-block text-ink/70 transition-colors duration-300 hover:text-ink;
   }
   .link-underline::after {
     content: '';
@@ -117,7 +138,7 @@
 
   /* Bouton secondaire (contour) */
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white/85 transition-all duration-300 hover:border-accent/60 hover:text-white;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 px-6 py-3 text-sm font-semibold text-ink/85 transition-all duration-300 hover:border-accent/60 hover:text-ink;
   }
 }
 
@@ -129,7 +150,7 @@
 
   /* Dégradé blanc -> gris pour les gros titres */
   .text-gradient-light {
-    background: linear-gradient(180deg, #ffffff 10%, rgb(255 255 255 / 0.45) 95%);
+    background: linear-gradient(180deg, rgb(var(--fg)) 10%, rgb(var(--fg) / 0.45) 95%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;

@@ -63,7 +63,7 @@ export function CustomCursor() {
         animate={{
           opacity: visible ? 1 : 0,
           scale: hovering ? 1.9 : 1,
-          borderColor: hovering ? 'rgb(var(--accent) / 0.9)' : 'rgb(255 255 255 / 0.35)',
+          borderColor: hovering ? 'rgb(var(--accent) / 0.9)' : 'rgb(var(--fg) / 0.35)',
         }}
         transition={{ duration: 0.25 }}
         className="absolute -ml-5 -mt-5 block h-10 w-10 rounded-full border"

@@ -97,7 +97,7 @@ export function Hero() {
             className="mt-6 flex items-center gap-3"
           >
             <Sparkles className="h-5 w-5 shrink-0 text-accent" />
-            <p className="font-display text-xl font-semibold text-white/90 sm:text-3xl">
+            <p className="font-display text-xl font-semibold text-ink/90 sm:text-3xl">
               <Typewriter words={profile.titles} />
             </p>
           </motion.div>
@@ -107,7 +107,7 @@ export function Hero() {
             initial={reduceMotion ? undefined : { opacity: 0, y: 20 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 1.05, ease: EASE }}
-            className="mt-7 max-w-2xl text-base leading-relaxed text-white/55 sm:text-lg"
+            className="mt-7 max-w-2xl text-base leading-relaxed text-ink/55 sm:text-lg"
           >
             {settings.tagline}
           </motion.p>
@@ -117,7 +117,7 @@ export function Hero() {
             initial={reduceMotion ? undefined : { opacity: 0, y: 20 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 1.15, ease: EASE }}
-            className="mt-5 inline-flex items-center gap-2 text-sm text-white/45"
+            className="mt-5 inline-flex items-center gap-2 text-sm text-ink/45"
           >
             <MapPin className="h-4 w-4 text-accent" />
             {profile.location}
@@ -148,7 +148,7 @@ export function Hero() {
               <a
                 href={profile.cvUrl}
                 download
-                className="group inline-flex items-center gap-2 px-2 py-3 text-sm font-semibold text-white/60 transition-colors hover:text-accent"
+                className="group inline-flex items-center gap-2 px-2 py-3 text-sm font-semibold text-ink/60 transition-colors hover:text-accent"
               >
                 <Download className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
                 <span className="link-underline">Télécharger le CV</span>
@@ -165,10 +165,10 @@ export function Hero() {
         initial={reduceMotion ? undefined : { opacity: 0 }}
         animate={reduceMotion ? undefined : { opacity: 1 }}
         transition={{ delay: 1.8, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/35 transition-colors hover:text-accent sm:flex"
+        className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-ink/35 transition-colors hover:text-accent sm:flex"
       >
         <span className="font-mono text-[10px] uppercase tracking-[0.3em]">Défiler</span>
-        <span className="flex h-10 w-6 justify-center rounded-full border border-white/20 p-1">
+        <span className="flex h-10 w-6 justify-center rounded-full border border-ink/20 p-1">
           <motion.span
             animate={reduceMotion ? undefined : { y: [0, 12, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}

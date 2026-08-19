@@ -164,8 +164,8 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
     <div>
       <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="font-display text-2xl font-bold text-white">{resource.label}</h2>
-          <p className="mt-1 text-sm text-white/45">{resource.description}</p>
+          <h2 className="font-display text-2xl font-bold text-ink">{resource.label}</h2>
+          <p className="mt-1 text-sm text-ink/45">{resource.description}</p>
         </div>
 
         {!resource.fixedRows && (
@@ -203,7 +203,7 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
       </AnimatePresence>
 
       {loading ? (
-        <p className="flex items-center gap-2 py-10 text-sm text-white/45">
+        <p className="flex items-center gap-2 py-10 text-sm text-ink/45">
           <Loader2 className="h-4 w-4 animate-spin" />
           Chargement…
         </p>
@@ -212,7 +212,7 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
           {/* Liste des entrées */}
           <ul className="space-y-2.5">
             {rows.length === 0 && (
-              <li className="glass-card p-6 text-sm text-white/45">
+              <li className="glass-card p-6 text-sm text-ink/45">
                 Aucune entrée pour le moment.
               </li>
             )}
@@ -229,9 +229,9 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
                     onClick={() => openRow(row)}
                     className="min-w-0 flex-1 text-left"
                   >
-                    <p className="truncate font-medium text-white">{rowTitle(resource, row)}</p>
+                    <p className="truncate font-medium text-ink">{rowTitle(resource, row)}</p>
                     {rowSubtitle(resource, row) && (
-                      <p className="truncate text-xs text-white/45">{rowSubtitle(resource, row)}</p>
+                      <p className="truncate text-xs text-ink/45">{rowSubtitle(resource, row)}</p>
                     )}
                   </button>
 
@@ -275,7 +275,7 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
                 className="glass-card h-fit p-6"
               >
                 <div className="mb-5 flex items-center justify-between">
-                  <h3 className="font-display text-lg font-semibold text-white">
+                  <h3 className="font-display text-lg font-semibold text-ink">
                     {selectedId === NEW ? 'Nouvelle entrée' : 'Modifier'}
                   </h3>
                   <IconButton label="Fermer" onClick={closeForm}>
@@ -310,7 +310,7 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
                 key="empty"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="glass-card h-fit p-8 text-sm text-white/40"
+                className="glass-card h-fit p-8 text-sm text-ink/40"
               >
                 Sélectionnez une entrée dans la liste pour la modifier
                 {!resource.fixedRows && ', ou ajoutez-en une nouvelle'}.
@@ -336,11 +336,11 @@ function Field({
   onChange: (value: string | boolean) => void
 }) {
   const inputClass =
-    'w-full rounded-xl border border-white/10 bg-night-900/60 px-3.5 py-2.5 text-sm text-white placeholder-white/25 outline-none transition-colors focus:border-accent/60'
+    'w-full rounded-xl border border-ink/10 bg-page-2/60 px-3.5 py-2.5 text-sm text-ink placeholder-ink/25 outline-none transition-colors focus:border-accent/60'
 
   if (field.type === 'boolean') {
     return (
-      <label className="flex cursor-pointer items-center gap-3 text-sm text-white/75">
+      <label className="flex cursor-pointer items-center gap-3 text-sm text-ink/75">
         <input
           type="checkbox"
           checked={value === true}
@@ -354,7 +354,7 @@ function Field({
 
   return (
     <label className="block">
-      <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-white/45">
+      <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-ink/45">
         {field.label}
         {field.required && <span className="ml-1 text-accent">*</span>}
       </span>
@@ -366,7 +366,7 @@ function Field({
           className={inputClass}
         >
           {field.options?.map((option) => (
-            <option key={option} value={option} className="bg-night-900">
+            <option key={option} value={option} className="bg-page-2">
               {option}
             </option>
           ))}
@@ -390,7 +390,7 @@ function Field({
         />
       )}
 
-      {field.help && <span className="mt-1.5 block text-xs text-white/35">{field.help}</span>}
+      {field.help && <span className="mt-1.5 block text-xs text-ink/35">{field.help}</span>}
     </label>
   )
 }
@@ -416,8 +416,8 @@ function IconButton({
       aria-label={label}
       disabled={disabled}
       onClick={onClick}
-      className={`flex h-7 w-7 items-center justify-center rounded-lg text-white/40 transition-colors disabled:opacity-25 ${
-        danger ? 'hover:bg-rose-500/15 hover:text-rose-300' : 'hover:bg-white/10 hover:text-white'
+      className={`flex h-7 w-7 items-center justify-center rounded-lg text-ink/40 transition-colors disabled:opacity-25 ${
+        danger ? 'hover:bg-rose-500/15 hover:text-rose-300' : 'hover:bg-ink/10 hover:text-ink'
       }`}
     >
       {children}
