@@ -2,7 +2,6 @@ import {
   Controller,
   Delete,
   Get,
-  Header,
   Put,
   Res,
   UploadedFile,
@@ -21,16 +20,20 @@ export class PhotoController {
 
   /** Image publique utilisée par le loader et le Hero. */
   @Get('photo')
-  @Header('Cache-Control', 'public, max-age=3600')
   async serve(@Res() response: Response) {
     const photo = await this.photos.getLatest();
     if (!photo) {
+      // Ne jamais mettre une 404 en cache CDN : après un upload, l’image
+      // resterait invisible pendant toute la durée du cache.
+      response.setHeader('Cache-Control', 'no-store, must-revalidate');
+      response.setHeader('CDN-Cache-Control', 'no-store');
       response.status(404).json({ message: 'Aucune photo de profil.' });
       return;
     }
 
     response.setHeader('Content-Type', photo.mime);
     response.setHeader('Content-Length', String(photo.data.length));
+    response.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     response.end(photo.data);
   }
 

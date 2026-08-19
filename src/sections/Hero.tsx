@@ -1,12 +1,11 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowDown, Download, Mail, MapPin, Sparkles } from 'lucide-react'
-import { useState } from 'react'
 import { AnimatedBackground } from '../components/AnimatedBackground'
 import { Magnetic } from '../components/Magnetic'
 import { Typewriter } from '../components/Typewriter'
 import { useContent } from '../context/ContentContext'
 import { profile } from '../data/portfolio'
-import { profilePhotoUrl } from '../lib/api'
+import { useProfilePhoto } from '../hooks/useProfilePhoto'
 import { EASE } from '../lib/motion'
 
 /**
@@ -24,12 +23,10 @@ const NAME_LINES = [profile.firstName, profile.lastName].map((line) =>
 
 export function Hero() {
   const reduceMotion = useReducedMotion()
-  const [photoFailed, setPhotoFailed] = useState(false)
 
   // Accroche et statut de disponibilité gérés depuis le CMS
-  const { settings, profilePhotoVersion } = useContent()
-  const photoSrc = profilePhotoUrl(profilePhotoVersion)
-  const showPhoto = Boolean(photoSrc) && !photoFailed
+  const { settings } = useContent()
+  const { src: photoSrc, show: showPhoto, onError } = useProfilePhoto()
 
   return (
     <section
@@ -178,7 +175,7 @@ export function Hero() {
                 <img
                   src={photoSrc!}
                   alt={`Portrait de ${profile.fullName}`}
-                  onError={() => setPhotoFailed(true)}
+                  onError={onError}
                   className="aspect-[4/5] h-auto w-full object-cover"
                 />
               </div>

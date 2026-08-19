@@ -129,8 +129,8 @@ export async function apiUpload<T>(path: string, file: File): Promise<T> {
   return (await response.json()) as T
 }
 
-/** URL publique de la photo de profil, ou null si l’API n’est pas configurée. */
+/** URL publique de la photo, uniquement si une version est connue (évite le cache 404). */
 export function profilePhotoUrl(version: number | null | undefined): string | null {
-  if (!API_URL) return null
-  return version ? `${API_URL}/api/photo?v=${version}` : `${API_URL}/api/photo`
+  if (!API_URL || !version) return null
+  return `${API_URL}/api/photo?v=${version}`
 }

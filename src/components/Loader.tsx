@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { profile } from '../data/portfolio'
 import { useContent } from '../context/ContentContext'
-import { profilePhotoUrl } from '../lib/api'
+import { useProfilePhoto } from '../hooks/useProfilePhoto'
 import { EASE } from '../lib/motion'
 
 type LoaderProps = {
@@ -17,9 +17,8 @@ type LoaderProps = {
 export function Loader({ onComplete }: LoaderProps) {
   const reduceMotion = useReducedMotion()
   const [progress, setProgress] = useState(0)
-  const [photoFailed, setPhotoFailed] = useState(false)
-  const { profilePhotoVersion } = useContent()
-  const photoSrc = profilePhotoUrl(profilePhotoVersion)
+  const { loading: contentLoading } = useContent()
+  const { src: photoSrc, show: showPhoto, onError } = useProfilePhoto()
 
   useEffect(() => {
     if (reduceMotion) {
@@ -27,7 +26,9 @@ export function Loader({ onComplete }: LoaderProps) {
       return
     }
 
-    // Progression simulée, légèrement irrégulière pour un rendu naturel
+    // On attend le CMS pour afficher la photo plutôt que les initiales AR.
+    if (contentLoading) return
+
     const interval = window.setInterval(() => {
       setProgress((previous) => {
         const next = previous + Math.random() * 18 + 6
@@ -41,7 +42,7 @@ export function Loader({ onComplete }: LoaderProps) {
     }, 130)
 
     return () => window.clearInterval(interval)
-  }, [onComplete, reduceMotion])
+  }, [onComplete, reduceMotion, contentLoading])
 
   if (reduceMotion) return null
 
@@ -60,11 +61,11 @@ export function Loader({ onComplete }: LoaderProps) {
         {/* Photo de profil (ou initiales en repli), plus grande qu'un monogramme */}
         <div className="relative flex h-52 w-52 items-center justify-center sm:h-64 sm:w-64">
           <span className="absolute inset-0 animate-pulse-ring rounded-full border border-accent/50" />
-          {photoSrc && !photoFailed ? (
+          {showPhoto ? (
             <img
-              src={photoSrc}
+              src={photoSrc!}
               alt=""
-              onError={() => setPhotoFailed(true)}
+              onError={onError}
               className="relative h-full w-full rounded-full border-2 border-accent/40 object-cover shadow-glow-sm"
             />
           ) : (
