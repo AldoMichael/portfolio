@@ -156,6 +156,11 @@ export const seedLanguages = [
   { name: 'Anglais', level: 'Intermédiaire', value: 60 },
 ];
 
+export const seedSocials = [
+  { label: 'LinkedIn', href: '', icon: 'linkedin' },
+  { label: 'GitHub', href: '', icon: 'github' },
+];
+
 export const seedSettings = [
   {
     key: 'yearsOfExperience',

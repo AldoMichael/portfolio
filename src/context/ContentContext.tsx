@@ -20,6 +20,7 @@ import {
   profile,
   projects as staticProjects,
   skillGroups as staticSkillGroups,
+  socials as staticSocials,
 } from '../data/portfolio'
 import type {
   EducationItem,
@@ -27,6 +28,7 @@ import type {
   LanguageItem,
   ProjectItem,
   SkillGroup,
+  SocialLink,
   StatItem,
 } from '../data/portfolio'
 import { apiRequest } from '../lib/api'
@@ -38,6 +40,7 @@ export type PortfolioContent = {
   projects: ProjectItem[]
   education: EducationItem[]
   languages: LanguageItem[]
+  socials: SocialLink[]
   /** Valeurs globales (années d'expérience, disponibilité, accroche...) */
   settings: Record<string, string>
 }
@@ -57,6 +60,7 @@ const fallbackContent: PortfolioContent = {
   projects: staticProjects,
   education: staticEducation,
   languages: staticLanguages,
+  socials: staticSocials,
   settings: {
     yearsOfExperience: String(profile.yearsOfExperience),
     availability: profile.availability,
@@ -73,6 +77,7 @@ const ContentContext = createContext<ContentState>({
 /* -------------------------------- Normalisation ---------------------------- */
 
 const ICONS = ['code', 'server', 'database', 'shield'] as const
+const SOCIAL_ICONS = ['linkedin', 'github', 'mail', 'phone'] as const
 
 /**
  * Ne remplace une liste que si l'API en renvoie une non vide : une table vide
@@ -96,6 +101,12 @@ function normalize(payload: Partial<PortfolioContent> | null): PortfolioContent 
     projects: pick<ProjectItem>(payload.projects, fallbackContent.projects),
     education: pick<EducationItem>(payload.education, fallbackContent.education),
     languages: pick<LanguageItem>(payload.languages, fallbackContent.languages),
+    socials: pick<SocialLink>(payload.socials, fallbackContent.socials).map((social) => ({
+      ...social,
+      icon: SOCIAL_ICONS.includes(social.icon as (typeof SOCIAL_ICONS)[number])
+        ? (social.icon as SocialLink['icon'])
+        : 'linkedin',
+    })),
     settings: { ...fallbackContent.settings, ...(payload.settings ?? {}) },
   }
 }

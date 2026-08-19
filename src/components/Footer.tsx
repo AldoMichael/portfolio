@@ -1,5 +1,7 @@
 import { ArrowUpRight, Github, Linkedin, Mail } from 'lucide-react'
-import { navItems, profile, socials } from '../data/portfolio'
+import { navItems, profile } from '../data/portfolio'
+import { useContent } from '../context/ContentContext'
+import { EXTERNAL_LINK_PROPS, safeUrl } from '../lib/links'
 
 const socialIcons = {
   linkedin: Linkedin,
@@ -10,6 +12,8 @@ const socialIcons = {
 
 export function Footer() {
   const year = new Date().getFullYear()
+  const { socials } = useContent()
+  const visibleSocials = socials.filter((social) => safeUrl(social.href))
 
   return (
     <footer className="relative border-t border-ink/10 bg-page-2/60">
@@ -56,14 +60,15 @@ export function Footer() {
           </a>
 
           <div className="mt-5 flex gap-3">
-            {socials.map((social) => {
+            {visibleSocials.map((social) => {
               const Icon = socialIcons[social.icon]
+              const href = safeUrl(social.href)
+              if (!href) return null
               return (
                 <a
                   key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
+                  href={href}
+                  {...EXTERNAL_LINK_PROPS}
                   aria-label={social.label}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 text-ink/60 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:text-accent"
                 >

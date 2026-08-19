@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ContentController } from './content.controller';
 import { ContentService } from './content.service';
-import { Education, Experience, Language, Project, Setting, SkillGroup, Stat } from './entities';
+import { Education, Experience, Language, Project, Setting, SkillGroup, Social, Stat } from './entities';
 
 export const CONTENT_ENTITIES = [
   Experience,
@@ -11,6 +11,7 @@ export const CONTENT_ENTITIES = [
   Project,
   Education,
   Language,
+  Social,
   Setting,
 ];
 

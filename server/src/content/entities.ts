@@ -176,6 +176,22 @@ export class Language extends ContentBase {
   value: number;
 }
 
+/* ----------------------------- Réseaux sociaux ----------------------------- */
+
+@Entity('socials')
+export class Social extends ContentBase {
+  @Column('varchar', { length: 80 })
+  label: string;
+
+  /** URL publique. Vide = le bouton n'est pas affiché sur le site. */
+  @Column('varchar', { length: 500, default: '' })
+  href: string;
+
+  /** Icône Lucide : linkedin | github | mail | phone. */
+  @Column('varchar', { length: 32, default: 'linkedin' })
+  icon: string;
+}
+
 /* ------------------- Réglages divers (clé / valeur libre) ------------------- */
 
 @Entity('settings')

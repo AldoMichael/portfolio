@@ -24,6 +24,7 @@ import {
   Project,
   Setting,
   SkillGroup,
+  Social,
   Stat,
 } from './content/entities';
 import {
@@ -33,6 +34,7 @@ import {
   seedProjects,
   seedSettings,
   seedSkillGroups,
+  seedSocials,
   seedStats,
 } from './seed-data';
 
@@ -75,6 +77,7 @@ async function run() {
   await fill(Project, 'Applications métier', seedProjects);
   await fill(Education, 'Formation', seedEducation);
   await fill(Language, 'Langues', seedLanguages);
+  await fill(Social, 'Réseaux sociaux', seedSocials);
   await fill(Setting, 'Réglages', seedSettings);
 
   /* --------------------------- Compte administrateur ------------------------- */

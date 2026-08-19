@@ -17,6 +17,7 @@ import {
   Project,
   Setting,
   SkillGroup,
+  Social,
   Stat,
 } from './entities';
 import { FieldDef, RESOURCES, RESOURCE_MAP } from './schema';
@@ -35,9 +36,9 @@ export class ContentService {
     @InjectRepository(Project) private readonly projects: Repository<Project>,
     @InjectRepository(Education) private readonly education: Repository<Education>,
     @InjectRepository(Language) private readonly languages: Repository<Language>,
+    @InjectRepository(Social) private readonly socials: Repository<Social>,
     @InjectRepository(Setting) private readonly settings: Repository<Setting>,
   ) {
-    // La clé correspond au `key` déclaré dans schema.ts et à l'URL de l'API.
     this.repositories = {
       experiences: this.experiences as Repository<ObjectLiteral>,
       skills: this.skillGroups as Repository<ObjectLiteral>,
@@ -45,6 +46,7 @@ export class ContentService {
       projects: this.projects as Repository<ObjectLiteral>,
       education: this.education as Repository<ObjectLiteral>,
       languages: this.languages as Repository<ObjectLiteral>,
+      socials: this.socials as Repository<ObjectLiteral>,
       settings: this.settings as Repository<ObjectLiteral>,
     };
   }
@@ -56,7 +58,7 @@ export class ContentService {
    * Le portfolio n'a ainsi qu'une requête à faire au chargement.
    */
   async getPublicContent() {
-    const [experiences, skillGroups, stats, projects, education, languages, settings] =
+    const [experiences, skillGroups, stats, projects, education, languages, socials, settings] =
       await Promise.all([
         this.experiences.find({ order: ORDER }),
         this.skillGroups.find({ order: ORDER }),
@@ -64,6 +66,7 @@ export class ContentService {
         this.projects.find({ order: ORDER }),
         this.education.find({ order: ORDER }),
         this.languages.find({ order: ORDER }),
+        this.socials.find({ order: ORDER }),
         this.settings.find({ order: ORDER }),
       ]);
 
@@ -111,6 +114,11 @@ export class ContentService {
         name: language.name,
         level: language.level,
         value: language.value,
+      })),
+      socials: socials.map((social) => ({
+        label: social.label,
+        href: social.href,
+        icon: social.icon,
       })),
       // Transformé en objet clé → valeur, plus pratique à consommer côté front.
       settings: Object.fromEntries(settings.map((setting) => [setting.key, setting.value])),

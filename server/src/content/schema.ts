@@ -140,6 +140,26 @@ export const RESOURCES: ResourceDef[] = [
     ],
   },
   {
+    key: 'socials',
+    label: 'Réseaux sociaux',
+    description: 'Les boutons LinkedIn, GitHub (et autres) du pied de page et du contact.',
+    fields: [
+      { name: 'label', label: 'Nom', type: 'text', required: true, help: 'Ex. LinkedIn' },
+      {
+        name: 'href',
+        label: 'Lien',
+        type: 'url',
+        help: 'URL complète https://… Laisser vide pour masquer le bouton.',
+      },
+      {
+        name: 'icon',
+        label: 'Icône',
+        type: 'select',
+        options: ['linkedin', 'github', 'mail', 'phone'],
+      },
+    ],
+  },
+  {
     key: 'settings',
     label: 'Réglages',
     description: "Valeurs globales réutilisées sur l'ensemble du site.",

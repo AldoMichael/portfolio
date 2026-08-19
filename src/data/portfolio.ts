@@ -272,8 +272,8 @@ export const languages: LanguageItem[] = [
 /* Remplacez les « # » par vos véritables URLs.                                 */
 
 export const socials: SocialLink[] = [
-  { label: 'LinkedIn', href: '#', icon: 'linkedin' },
-  { label: 'GitHub', href: '#', icon: 'github' },
+  { label: 'LinkedIn', href: '', icon: 'linkedin' },
+  { label: 'GitHub', href: '', icon: 'github' },
 ]
 
 /* -------------------------------- Navigation -------------------------------- */

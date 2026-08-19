@@ -83,6 +83,16 @@ CREATE TABLE IF NOT EXISTS "languages" (
   "updated_at" TIMESTAMP NOT NULL DEFAULT now()
 );
 
+CREATE TABLE IF NOT EXISTS "socials" (
+  "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  "label" varchar(80) NOT NULL,
+  "href" varchar(500) NOT NULL DEFAULT '',
+  "icon" varchar(32) NOT NULL DEFAULT 'linkedin',
+  "position" integer NOT NULL DEFAULT 0,
+  "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+  "updated_at" TIMESTAMP NOT NULL DEFAULT now()
+);
+
 CREATE TABLE IF NOT EXISTS "settings" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "key" varchar(80) NOT NULL UNIQUE,

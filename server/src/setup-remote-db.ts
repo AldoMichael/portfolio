@@ -25,6 +25,7 @@ import {
   seedProjects,
   seedSettings,
   seedSkillGroups,
+  seedSocials,
   seedStats,
 } from './seed-data';
 
@@ -127,6 +128,7 @@ async function run() {
   );
   await fill('education', ['degree', 'school', 'year', 'detail'], seedEducation);
   await fill('languages', ['name', 'level', 'value'], seedLanguages);
+  await fill('socials', ['label', 'href', 'icon'], seedSocials);
   await fill('settings', ['key', 'label', 'value'], seedSettings);
 
   await upsertAdmin();

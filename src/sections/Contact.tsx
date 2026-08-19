@@ -4,7 +4,9 @@ import { useMemo, useState } from 'react'
 import { Magnetic } from '../components/Magnetic'
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
-import { profile, socials } from '../data/portfolio'
+import { profile } from '../data/portfolio'
+import { useContent } from '../context/ContentContext'
+import { EXTERNAL_LINK_PROPS, safeUrl } from '../lib/links'
 import { EASE } from '../lib/motion'
 
 type FormFields = {
@@ -34,6 +36,8 @@ function validate(values: FormFields): FormErrors {
 const socialIcons = { linkedin: Linkedin, github: Github, mail: Mail, phone: Phone }
 
 export function Contact() {
+  const { socials } = useContent()
+  const visibleSocials = socials.filter((social) => safeUrl(social.href))
   const [values, setValues] = useState<FormFields>({
     name: '',
     email: '',
@@ -115,19 +119,20 @@ export function Contact() {
             )
           })}
 
-          {/* Réseaux sociaux */}
+          {visibleSocials.length > 0 && (
           <Reveal delay={0.3}>
             <div className="glass-card p-5">
               <p className="mb-4 text-xs uppercase tracking-[0.18em] text-ink/35">Réseaux</p>
               <div className="flex gap-3">
-                {socials.map((social) => {
+                {visibleSocials.map((social) => {
                   const Icon = socialIcons[social.icon]
+                  const href = safeUrl(social.href)
+                  if (!href) return null
                   return (
                     <a
                       key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noreferrer noopener"
+                      href={href}
+                      {...EXTERNAL_LINK_PROPS}
                       aria-label={social.label}
                       className="flex h-11 w-11 items-center justify-center rounded-xl border border-ink/10 text-ink/60 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:text-accent hover:shadow-glow-sm"
                     >
@@ -138,6 +143,7 @@ export function Contact() {
               </div>
             </div>
           </Reveal>
+          )}
         </div>
 
         {/* Formulaire */}
