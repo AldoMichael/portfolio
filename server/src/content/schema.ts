@@ -12,7 +12,7 @@
  * ============================================================================
  */
 
-export type FieldType = 'text' | 'textarea' | 'number' | 'boolean' | 'list' | 'select' | 'url';
+export type FieldType = 'text' | 'textarea' | 'number' | 'boolean' | 'list' | 'select' | 'url' | 'image';
 
 export type FieldDef = {
   name: string;
@@ -166,10 +166,10 @@ export const RESOURCES: ResourceDef[] = [
     fields: [
       { name: 'name', label: 'Nom', type: 'text', required: true },
       {
-        name: 'logoUrl',
-        label: 'Logo (URL)',
-        type: 'url',
-        help: 'Lien https://… vers le logo (PNG, SVG ou JPEG). Laisser vide pour n’afficher que le nom.',
+        name: 'logo',
+        label: 'Logo',
+        type: 'image',
+        help: 'JPEG, PNG, WebP ou SVG, 1 Mo maximum. Affiché avec le nom sur le site.',
       },
       {
         name: 'href',

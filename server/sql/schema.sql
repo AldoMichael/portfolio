@@ -97,11 +97,16 @@ CREATE TABLE IF NOT EXISTS "clients" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "name" varchar(160) NOT NULL,
   "logo_url" varchar(500) NOT NULL DEFAULT '',
+  "logo_mime" varchar(80) NOT NULL DEFAULT '',
+  "logo_data" bytea,
   "href" varchar(500) NOT NULL DEFAULT '',
   "position" integer NOT NULL DEFAULT 0,
   "created_at" TIMESTAMP NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMP NOT NULL DEFAULT now()
 );
+
+ALTER TABLE "clients" ADD COLUMN IF NOT EXISTS "logo_mime" varchar(80) NOT NULL DEFAULT '';
+ALTER TABLE "clients" ADD COLUMN IF NOT EXISTS "logo_data" bytea;
 
 CREATE TABLE IF NOT EXISTS "settings" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),

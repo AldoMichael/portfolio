@@ -14,6 +14,7 @@ import {
   ArrowDown,
   ArrowUp,
   Check,
+  ImagePlus,
   Loader2,
   Plus,
   Save,
@@ -21,7 +22,7 @@ import {
   X,
 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
-import { apiRequest } from '../lib/api'
+import { apiRequest, apiUpload, clientLogoUrl } from '../lib/api'
 import type { FieldDef, FormValues, ResourceDef, ResourceRow } from './types'
 import { rowSubtitle, rowTitle, toFormValues, toPayload, validate } from './types'
 
@@ -36,6 +37,8 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+  const [logoFile, setLogoFile] = useState<File | null>(null)
+  const [logoPreview, setLogoPreview] = useState<string | null>(null)
 
   /* ------------------------------- Chargement ------------------------------- */
 
@@ -55,6 +58,8 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
   useEffect(() => {
     setSelectedId(null)
     setValues({})
+    setLogoFile(null)
+    setLogoPreview(null)
     setError(null)
     setSuccess(null)
     void load()
@@ -72,18 +77,28 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
   function openRow(row: ResourceRow) {
     setSelectedId(row.id)
     setValues(toFormValues(resource.fields, row))
+    setLogoFile(null)
+    setLogoPreview(
+      row.hasLogo && row.id
+        ? clientLogoUrl(String(row.id), new Date(String(row.updatedAt ?? Date.now())).getTime())
+        : null,
+    )
     setError(null)
   }
 
   function openCreate() {
     setSelectedId(NEW)
     setValues(toFormValues(resource.fields, null))
+    setLogoFile(null)
+    setLogoPreview(null)
     setError(null)
   }
 
   function closeForm() {
     setSelectedId(null)
     setValues({})
+    setLogoFile(null)
+    setLogoPreview(null)
     setError(null)
   }
 
@@ -101,8 +116,15 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
     try {
       const payload = toPayload(resource.fields, values)
 
+      let savedId = selectedId
+
       if (selectedId === NEW) {
-        await apiRequest(`/api/admin/${resource.key}`, { method: 'POST', body: payload, auth: true })
+        const created = await apiRequest<{ id: string }>(`/api/admin/${resource.key}`, {
+          method: 'POST',
+          body: payload,
+          auth: true,
+        })
+        savedId = created.id
         setSuccess('Élément créé.')
       } else {
         await apiRequest(`/api/admin/${resource.key}/${selectedId}`, {
@@ -111,6 +133,10 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
           auth: true,
         })
         setSuccess('Modifications enregistrées.')
+      }
+
+      if (logoFile && savedId && savedId !== NEW) {
+        await apiUpload(`/api/clients/${savedId}/logo`, logoFile)
       }
 
       await load()
@@ -284,16 +310,31 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
                 </div>
 
                 <div className="space-y-4">
-                  {resource.fields.map((field) => (
-                    <Field
-                      key={field.name}
-                      field={field}
-                      value={values[field.name]}
-                      onChange={(value) =>
-                        setValues((current) => ({ ...current, [field.name]: value }))
-                      }
-                    />
-                  ))}
+                  {resource.fields.map((field) =>
+                    field.type === 'image' ? (
+                      <LogoField
+                        key={field.name}
+                        field={field}
+                        preview={
+                          logoPreview ??
+                          (logoFile ? URL.createObjectURL(logoFile) : null)
+                        }
+                        onFile={(file) => {
+                          setLogoFile(file)
+                          setLogoPreview(file ? URL.createObjectURL(file) : null)
+                        }}
+                      />
+                    ) : (
+                      <Field
+                        key={field.name}
+                        field={field}
+                        value={values[field.name]}
+                        onChange={(value) =>
+                          setValues((current) => ({ ...current, [field.name]: value }))
+                        }
+                      />
+                    ),
+                  )}
                 </div>
 
                 <button type="submit" disabled={saving} className="btn-primary mt-6 w-full">
@@ -390,6 +431,43 @@ function Field({
         />
       )}
 
+      {field.help && <span className="mt-1.5 block text-xs text-ink/35">{field.help}</span>}
+    </label>
+  )
+}
+
+function LogoField({
+  field,
+  preview,
+  onFile,
+}: {
+  field: FieldDef
+  preview: string | null
+  onFile: (file: File | null) => void
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-ink/45">
+        {field.label}
+      </span>
+      <div className="flex items-center gap-4">
+        <div className="flex h-16 w-24 items-center justify-center overflow-hidden rounded-xl border border-ink/10 bg-page-2/60">
+          {preview ? (
+            <img src={preview} alt="" className="max-h-14 max-w-[5.5rem] object-contain" />
+          ) : (
+            <ImagePlus className="h-5 w-5 text-ink/30" />
+          )}
+        </div>
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/svg+xml,.svg"
+          className="text-sm text-ink/70 file:mr-3 file:rounded-full file:border-0 file:bg-accent/15 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-accent"
+          onChange={(event) => {
+            onFile(event.target.files?.[0] ?? null)
+            event.target.value = ''
+          }}
+        />
+      </div>
       {field.help && <span className="mt-1.5 block text-xs text-ink/35">{field.help}</span>}
     </label>
   )

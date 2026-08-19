@@ -73,11 +73,12 @@ export type SocialLink = {
 }
 
 export type ClientItem = {
+  id?: string
   name: string
-  /** URL du logo. Absente = le nom est affiché. */
   logoUrl?: string
-  /** Site de l’entreprise. Absent = la carte n’est pas un lien. */
   href?: string
+  hasLogo?: boolean
+  logoVersion?: number | null
 }
 
 export type StatItem = {

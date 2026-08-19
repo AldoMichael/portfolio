@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Section } from '../components/Section'
 import { useContent } from '../context/ContentContext'
 import type { ClientItem } from '../data/portfolio'
+import { clientLogoUrl } from '../lib/api'
 import { EXTERNAL_LINK_PROPS, safeUrl } from '../lib/links'
 
 export function TrustedBy() {
@@ -51,7 +52,9 @@ export function TrustedBy() {
 
 function ClientCard({ client }: { client: ClientItem }) {
   const [logoFailed, setLogoFailed] = useState(false)
-  const logo = safeUrl(client.logoUrl)
+  const uploaded = clientLogoUrl(client.id, client.logoVersion)
+  const linked = safeUrl(client.logoUrl)
+  const logo = uploaded ?? linked
   const href = safeUrl(client.href)
   const showLogo = Boolean(logo) && !logoFailed
 
@@ -62,7 +65,7 @@ function ClientCard({ client }: { client: ClientItem }) {
           src={logo}
           alt=""
           onError={() => setLogoFailed(true)}
-          className="max-h-12 max-w-[10rem] object-contain opacity-80 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+          className="max-h-12 max-w-[10rem] object-contain opacity-90 transition duration-300 group-hover:opacity-100"
         />
       ) : null}
       <span className="font-display text-sm font-semibold tracking-tight text-ink/80 group-hover:text-ink">

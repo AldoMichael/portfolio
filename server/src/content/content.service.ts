@@ -131,9 +131,12 @@ export class ContentService {
         icon: social.icon,
       })),
       clients: clients.map((client) => ({
+        id: client.id,
         name: client.name,
         logoUrl: client.logoUrl || undefined,
         href: client.href || undefined,
+        hasLogo: Boolean(client.logoMime),
+        logoVersion: client.logoMime ? client.updatedAt.getTime() : null,
       })),
       // Transformé en objet clé → valeur, plus pratique à consommer côté front.
       settings: Object.fromEntries(settings.map((setting) => [setting.key, setting.value])),
@@ -147,7 +150,8 @@ export class ContentService {
 
   /** Liste brute (avec id et position) utilisée par l'interface d'admin. */
   async list(resource: string) {
-    return this.repositoryFor(resource).find({ order: ORDER });
+    const rows = await this.repositoryFor(resource).find({ order: ORDER });
+    return resource === 'clients' ? rows.map((row) => this.clientPublicRow(row)) : rows;
   }
 
   async create(resource: string, body: unknown) {
@@ -158,7 +162,9 @@ export class ContentService {
     const last = await repository.find({ order: { position: 'DESC' }, take: 1 });
     data.position = (last[0]?.position ?? -1) + 1;
 
-    return this.save(repository, repository.create(data));
+    return this.save(repository, repository.create(data)).then((saved) =>
+      resource === 'clients' ? this.clientPublicRow(saved) : saved,
+    );
   }
 
   async update(resource: string, id: string, body: unknown) {
@@ -167,7 +173,8 @@ export class ContentService {
     if (!entity) throw new NotFoundException('Élément introuvable.');
 
     Object.assign(entity, this.sanitize(resource, body, true));
-    return this.save(repository, entity);
+    const saved = await this.save(repository, entity);
+    return resource === 'clients' ? this.clientPublicRow(saved) : saved;
   }
 
   async remove(resource: string, id: string) {
@@ -189,6 +196,70 @@ export class ContentService {
     );
 
     return this.list(resource);
+  }
+
+  async getClientLogo(id: string) {
+    const client = await this.clients.findOne({
+      where: { id },
+      select: ['id', 'logoMime', 'logoData', 'updatedAt'],
+    });
+    if (!client?.logoMime || !client.logoData?.length) return null;
+    return client;
+  }
+
+  async saveClientLogo(
+    id: string,
+    file: { mimetype: string; size: number; buffer: Buffer; originalname?: string } | undefined,
+  ) {
+    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
+    if (!file?.buffer?.length) {
+      throw new BadRequestException('Aucun fichier reçu. Choisissez un logo JPEG, PNG, WebP ou SVG.');
+    }
+    const mime = (file.mimetype || '').toLowerCase();
+    const name = (file.originalname || '').toLowerCase();
+    const ok =
+      allowed.includes(mime) ||
+      name.endsWith('.svg') ||
+      name.endsWith('.png') ||
+      name.endsWith('.jpg') ||
+      name.endsWith('.jpeg') ||
+      name.endsWith('.webp');
+    if (!ok) {
+      throw new BadRequestException('Formats acceptés : JPEG, PNG, WebP, SVG.');
+    }
+    if (file.size > 1024 * 1024) {
+      throw new BadRequestException('Le logo ne doit pas dépasser 1 Mo.');
+    }
+
+    const client = await this.clients.findOne({ where: { id } });
+    if (!client) throw new NotFoundException('Entreprise introuvable.');
+
+    client.logoMime = allowed.includes(mime) ? mime : name.endsWith('.svg') ? 'image/svg+xml' : 'image/png';
+    client.logoData = file.buffer;
+    const saved = await this.clients.save(client);
+    return { updatedAt: saved.updatedAt.getTime(), hasLogo: true };
+  }
+
+  async removeClientLogo(id: string) {
+    const client = await this.clients.findOne({ where: { id } });
+    if (!client) throw new NotFoundException('Entreprise introuvable.');
+    client.logoMime = '';
+    client.logoData = null;
+    await this.clients.save(client);
+    return { deleted: true };
+  }
+
+  private clientPublicRow(row: ObjectLiteral) {
+    return {
+      id: row.id,
+      position: row.position,
+      name: row.name,
+      href: row.href,
+      logoUrl: row.logoUrl ?? '',
+      hasLogo: Boolean(row.logoMime),
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt,
+    };
   }
 
   /* -------------------------------- Utilitaires ------------------------------ */
@@ -234,6 +305,7 @@ export class ContentService {
     const result: Record<string, any> = {};
 
     for (const field of definition.fields) {
+      if (field.type === 'image') continue;
       const provided = Object.prototype.hasOwnProperty.call(source, field.name);
       if (!provided) {
         if (partial) continue;
@@ -315,6 +387,9 @@ export class ContentService {
         }
         return value;
       }
+
+      case 'image':
+        return undefined;
 
       default: {
         const value = String(raw ?? '').trim();

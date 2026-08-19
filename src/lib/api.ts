@@ -140,3 +140,8 @@ export function cvDownloadUrl(version: number | null | undefined): string | null
   if (!API_URL || !version) return null
   return `${API_URL}/api/cv?v=${version}`
 }
+
+export function clientLogoUrl(id: string | undefined, version: number | null | undefined): string | null {
+  if (!API_URL || !id || !version) return null
+  return `${API_URL}/api/clients/${id}/logo?v=${version}`
+}

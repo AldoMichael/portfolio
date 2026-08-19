@@ -4,7 +4,7 @@
  * les formulaires d'administration automatiquement.
  */
 
-export type FieldType = 'text' | 'textarea' | 'number' | 'boolean' | 'list' | 'select' | 'url'
+export type FieldType = 'text' | 'textarea' | 'number' | 'boolean' | 'list' | 'select' | 'url' | 'image'
 
 export type FieldDef = {
   name: string
@@ -42,6 +42,7 @@ export function toFormValues(fields: FieldDef[], row?: ResourceRow | null): Form
   const values: FormValues = {}
 
   for (const field of fields) {
+    if (field.type === 'image') continue
     const raw = row?.[field.name]
 
     switch (field.type) {
@@ -71,6 +72,7 @@ export function toPayload(fields: FieldDef[], values: FormValues) {
   const payload: Record<string, unknown> = {}
 
   for (const field of fields) {
+    if (field.type === 'image') continue
     const value = values[field.name]
 
     switch (field.type) {
@@ -110,6 +112,7 @@ export function rowSubtitle(resource: ResourceDef, row: ResourceRow): string {
 export function validate(fields: FieldDef[], values: FormValues): string | null {
   for (const field of fields) {
     if (!field.required) continue
+    if (field.type === 'image') continue
 
     const value = values[field.name]
     if (field.type === 'number') {

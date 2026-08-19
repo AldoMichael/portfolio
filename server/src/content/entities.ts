@@ -203,6 +203,12 @@ export class Client extends ContentBase {
   @Column('varchar', { length: 500, name: 'logo_url', default: '' })
   logoUrl: string;
 
+  @Column('varchar', { length: 80, name: 'logo_mime', default: '' })
+  logoMime: string;
+
+  @Column({ type: 'bytea', name: 'logo_data', nullable: true, select: false })
+  logoData: Buffer | null;
+
   /** Site de l’entreprise. Vide = la carte n’est pas un lien. */
   @Column('varchar', { length: 500, default: '' })
   href: string;
