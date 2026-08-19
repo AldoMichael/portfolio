@@ -74,7 +74,7 @@ export class ContentService {
         this.education.find({ order: ORDER }),
         this.languages.find({ order: ORDER }),
         this.socials.find({ order: ORDER }),
-        this.clients.find({ order: ORDER }),
+        this.clients.find({ order: ORDER }).catch(() => [] as Client[]),
         this.settings.find({ order: ORDER }),
         this.photos.getVersion(),
         this.cvs.getMeta(),
