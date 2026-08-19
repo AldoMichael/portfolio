@@ -1,15 +1,18 @@
+import { useReducedMotion } from 'framer-motion'
 import { useState } from 'react'
-import { motion } from 'framer-motion'
 import { Section } from '../components/Section'
 import { useContent } from '../context/ContentContext'
 import type { ClientItem } from '../data/portfolio'
 import { EXTERNAL_LINK_PROPS, safeUrl } from '../lib/links'
-import { fadeUp, staggerContainer, viewportOnce } from '../lib/motion'
 
 export function TrustedBy() {
   const { clients } = useContent()
+  const reduceMotion = useReducedMotion()
 
   if (clients.length === 0) return null
+
+  // Deux copies pour une boucle sans à-coup (translation de -50 %).
+  const loop = reduceMotion ? clients : [...clients, ...clients]
 
   return (
     <Section
@@ -18,19 +21,30 @@ export function TrustedBy() {
       title="Ils nous ont fait confiance"
       description="Des organisations avec lesquelles j’ai collaboré, en mission, en freelance ou en équipe."
     >
-      <motion.ul
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportOnce}
-        variants={staggerContainer(0.08)}
-        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-      >
-        {clients.map((client) => (
-          <motion.li key={client.name} variants={fadeUp}>
-            <ClientCard client={client} />
-          </motion.li>
-        ))}
-      </motion.ul>
+      <div className="relative overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-page to-transparent sm:w-20"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-page to-transparent sm:w-20"
+        />
+
+        <ul
+          className={
+            reduceMotion
+              ? 'flex flex-wrap justify-center gap-4'
+              : 'flex w-max gap-4 hover:[animation-play-state:paused] animate-marquee'
+          }
+        >
+          {loop.map((client, index) => (
+            <li key={`${client.name}-${index}`} className="w-56 shrink-0" aria-hidden={index >= clients.length}>
+              <ClientCard client={client} />
+            </li>
+          ))}
+        </ul>
+      </div>
     </Section>
   )
 }

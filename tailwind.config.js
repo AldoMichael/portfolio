@@ -78,7 +78,7 @@ export default {
         blob: 'blob 18s ease-in-out infinite',
         shimmer: 'shimmer 2.5s linear infinite',
         'pulse-ring': 'pulse-ring 2s ease-out infinite',
-        marquee: 'marquee 32s linear infinite',
+        marquee: 'marquee 28s linear infinite',
       },
     },
   },
