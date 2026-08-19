@@ -32,7 +32,7 @@ createdb -U postgres portfolio
 # 2. API
 cd server
 npm install
-cp .env.example .env      # puis renseignez DB_PASSWORD, JWT_SECRET et ADMIN_PASSWORD
+cp .env.example .env      # puis renseignez DB_PASSWORD et JWT_SECRET
 npm run seed              # crée les tables, insère le contenu et le compte admin
 npm run dev               # API -> http://localhost:3001/api
 
@@ -132,7 +132,6 @@ L'accent est une variable CSS (`--accent`) définie dans `src/index.css` et modi
 | `DB_NAME`                   | Nom de la base (par défaut `portfolio`)                             |
 | `DB_SYNCHRONIZE`            | `true` en dev : TypeORM crée et met à jour les tables tout seul      |
 | `JWT_SECRET`                | Clé de signature des jetons — **obligatoire**, l'API refuse de démarrer sans |
-| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Compte créé ou mis à jour par `npm run seed`                   |
 | `CORS_ORIGIN`               | Origines autorisées à appeler l'API, séparées par des virgules       |
 
 Générer une clé JWT solide :
@@ -372,8 +371,6 @@ DATABASE_URL=postgresql://...    # chaîne Neon complète
 DB_SYNCHRONIZE=false             # le schéma est déjà créé
 DB_POOL_MAX=1                    # une connexion par instance serverless
 JWT_SECRET=...                   # clé aléatoire
-ADMIN_EMAIL=...
-ADMIN_PASSWORD=...
 CORS_ORIGIN=https://mon-site.vercel.app
 ```
 
