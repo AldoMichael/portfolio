@@ -196,6 +196,10 @@ Il apparaît automatiquement dans `/admin`, aucun code d'interface à écrire.
 ├── scripts/
 │   └── generate-cv-pdf.mjs               # génération du CV PDF
 ├── server/                               # API CMS (NestJS + PostgreSQL)
+│   ├── api/
+│   │   └── index.ts                      # point d'entrée serverless (Vercel)
+│   ├── sql/
+│   │   └── schema.sql                    # schéma SQL pour la production
 │   ├── src/
 │   │   ├── auth/                         # connexion admin, JWT, hachage scrypt
 │   │   ├── content/
@@ -204,7 +208,8 @@ Il apparaît automatiquement dans `/admin`, aucun code d'interface à écrire.
 │   │   │   ├── content.service.ts        # lecture publique + CRUD générique
 │   │   │   └── content.controller.ts     # routes /api
 │   │   ├── seed-data.ts                  # contenu initial
-│   │   ├── seed.ts                       # script de peuplement
+│   │   ├── seed.ts                       # peuplement (connexion PostgreSQL directe)
+│   │   ├── setup-remote-db.ts            # peuplement d'une base distante via HTTPS
 │   │   └── main.ts
 │   └── .env.example
 ├── src/
@@ -333,19 +338,63 @@ Le fichier `netlify.toml` définit la commande de build, le dossier publié et l
 `npm run build` génère un dossier `dist/` entièrement statique, déployable sur n'importe quel
 hébergeur (GitHub Pages, OVH, Firebase Hosting…).
 
-### Déployer aussi l'API
+### Déployer aussi l'API (Vercel + Neon)
 
-Le front et l'API se déploient séparément :
+Le front et l'API sont **deux projets Vercel distincts**, créés depuis le même dépôt GitHub.
 
-1. Hébergez `server/` sur une plateforme Node avec PostgreSQL managé (Railway, Render, Fly.io,
-   Scaleway…) et renseignez-y les variables de `server/.env.example`.
-2. Passez `DB_SYNCHRONIZE=false` en production et générez des migrations TypeORM.
-3. Ajoutez l'URL publique du site dans `CORS_ORIGIN`.
-4. Côté front, définissez la variable d'environnement `VITE_API_URL` avec l'URL de l'API, puis
-   relancez le build.
+#### 1. Préparer la base
 
-Sans `VITE_API_URL`, ou si l'API ne répond pas, le site affiche le contenu de
-`src/data/portfolio.ts` : le déploiement statique reste donc toujours valable.
+Créez une base sur [Neon](https://neon.tech), puis appliquez le schéma et le contenu initial :
+
+```bash
+cd server
+# dans .env : NEON_DATABASE_URL=postgresql://...
+npm run db:setup
+```
+
+Ce script passe par le driver HTTP de Neon (port 443). C'est indispensable si le port 5432
+est bloqué sur votre réseau. Il est sans risque : `CREATE TABLE IF NOT EXISTS`, et les données
+ne sont insérées que dans les tables vides.
+
+À défaut, le contenu de `server/sql/schema.sql` peut être collé dans l'éditeur SQL de Neon.
+
+#### 2. Projet Vercel « API »
+
+| Réglage             | Valeur    |
+| ------------------- | --------- |
+| Root Directory      | `server`  |
+| Framework Preset    | Other     |
+
+Variables d'environnement :
+
+```env
+DATABASE_URL=postgresql://...    # chaîne Neon complète
+DB_SYNCHRONIZE=false             # le schéma est déjà créé
+DB_POOL_MAX=1                    # une connexion par instance serverless
+JWT_SECRET=...                   # clé aléatoire
+ADMIN_EMAIL=...
+ADMIN_PASSWORD=...
+CORS_ORIGIN=https://mon-site.vercel.app
+```
+
+#### 3. Projet Vercel « site »
+
+| Réglage             | Valeur      |
+| ------------------- | ----------- |
+| Root Directory      | `.` (racine) |
+| Framework Preset    | Vite        |
+
+Une seule variable d'environnement :
+
+```env
+VITE_API_URL=https://mon-api.vercel.app
+```
+
+Déployez l'API en premier pour connaître son URL, puis le site. Renseignez ensuite `CORS_ORIGIN`
+côté API avec l'URL définitive du site et redéployez-la.
+
+> Sans `VITE_API_URL`, ou si l'API ne répond pas, le site affiche le contenu de
+> `src/data/portfolio.ts`. Un déploiement statique seul reste donc toujours valable.
 
 ---
 

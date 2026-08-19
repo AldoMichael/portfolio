@@ -7,8 +7,14 @@
  * ============================================================================
  */
 
-/** Définie dans .env (VITE_API_URL). Valeur par défaut : serveur local. */
-export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3001'
+/**
+ * Définie dans .env (VITE_API_URL).
+ * À défaut : le serveur local en développement, la même origine en production
+ * — jamais « localhost » sur un site déployé, ce qui produirait des appels
+ * voués à l'échec au lieu d'un repli propre sur le contenu statique.
+ */
+export const API_URL =
+  import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? 'http://localhost:3001' : '')
 
 const TOKEN_KEY = 'portfolio.admin.token'
 
