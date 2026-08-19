@@ -5,6 +5,7 @@ import { navItems, profile } from '../data/portfolio'
 import { useActiveSection } from '../hooks/useActiveSection'
 import { useScrolled } from '../hooks/useScrolled'
 import { useAccent } from '../hooks/useAccent'
+import { useCvUrl } from '../hooks/useCvUrl'
 import { useProfilePhoto } from '../hooks/useProfilePhoto'
 import { EASE } from '../lib/motion'
 import { ThemeToggle } from './ThemeToggle'
@@ -19,6 +20,7 @@ export function Navbar() {
   const [paletteOpen, setPaletteOpen] = useState(false)
   const { accentIndex, setAccent, presets } = useAccent()
   const { src: photoSrc, show: showPhoto, onError } = useProfilePhoto()
+  const cvUrl = useCvUrl()
 
   // Empêche le défilement de l'arrière-plan quand le menu mobile est ouvert
   useEffect(() => {
@@ -136,7 +138,7 @@ export function Navbar() {
 
             {/* CV : visible à partir du format tablette */}
             <a
-              href={profile.cvUrl}
+              href={cvUrl}
               download
               className="hidden items-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-sm font-medium text-ink/85 transition-all duration-300 hover:border-accent/60 hover:text-accent sm:inline-flex"
             >
@@ -208,7 +210,7 @@ export function Navbar() {
             </motion.ul>
 
             <div className="container-page mt-10">
-              <a href={profile.cvUrl} download className="btn-primary w-full sm:w-auto">
+              <a href={cvUrl} download className="btn-primary w-full sm:w-auto">
                 <Download className="h-4 w-4" />
                 Télécharger le CV
               </a>

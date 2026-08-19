@@ -134,3 +134,9 @@ export function profilePhotoUrl(version: number | null | undefined): string | nu
   if (!API_URL || !version) return null
   return `${API_URL}/api/photo?v=${version}`
 }
+
+/** URL du CV uploadé depuis l’admin, ou null s’il n’y en a pas. */
+export function cvDownloadUrl(version: number | null | undefined): string | null {
+  if (!API_URL || !version) return null
+  return `${API_URL}/api/cv?v=${version}`
+}

@@ -45,6 +45,9 @@ export type PortfolioContent = {
   settings: Record<string, string>
   /** Horodatage de la photo de profil, ou null s'il n'y en a pas. */
   profilePhotoVersion: number | null
+  /** Horodatage du CV PDF uploadé, ou null s'il n'y en a pas. */
+  cvVersion: number | null
+  cvFilename: string | null
 }
 
 type ContentState = PortfolioContent & {
@@ -69,6 +72,8 @@ const fallbackContent: PortfolioContent = {
     tagline: profile.tagline,
   },
   profilePhotoVersion: null,
+  cvVersion: null,
+  cvFilename: null,
 }
 
 const ContentContext = createContext<ContentState>({
@@ -113,6 +118,8 @@ function normalize(payload: Partial<PortfolioContent> | null): PortfolioContent 
     settings: { ...fallbackContent.settings, ...(payload.settings ?? {}) },
     profilePhotoVersion:
       typeof payload.profilePhotoVersion === 'number' ? payload.profilePhotoVersion : null,
+    cvVersion: typeof payload.cvVersion === 'number' ? payload.cvVersion : null,
+    cvFilename: typeof payload.cvFilename === 'string' ? payload.cvFilename : null,
   }
 }
 

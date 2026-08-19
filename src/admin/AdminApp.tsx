@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react'
 import { apiRequest, getToken, setToken } from '../lib/api'
 import { ThemeToggle } from '../components/ThemeToggle'
 import { PhotoEditor } from './PhotoEditor'
+import { CvEditor } from './CvEditor'
 import { ResourceEditor } from './ResourceEditor'
 import type { ResourceDef } from './types'
 
@@ -176,7 +177,11 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
       .catch((err) => setError(err instanceof Error ? err.message : 'Schéma indisponible.'))
   }, [])
 
-  const navItems = [{ key: '_photo', label: 'Photo de profil' }, ...resources]
+  const navItems = [
+    { key: '_photo', label: 'Photo de profil' },
+    { key: '_cv', label: 'CV téléchargeable' },
+    ...resources,
+  ]
   const active = resources.find((resource) => resource.key === activeKey)
 
   return (
@@ -239,6 +244,8 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
 
           {activeKey === '_photo' ? (
             <PhotoEditor />
+          ) : activeKey === '_cv' ? (
+            <CvEditor />
           ) : (
             active && <ResourceEditor key={active.key} resource={active} />
           )}

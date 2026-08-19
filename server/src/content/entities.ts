@@ -223,3 +223,23 @@ export class ProfilePhoto {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 }
+
+/* ----------------------------- CV téléchargeable --------------------------- */
+
+@Entity('profile_cvs')
+export class ProfileCv {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column('varchar', { length: 80 })
+  mime: string;
+
+  @Column('varchar', { length: 180, default: 'cv.pdf' })
+  filename: string;
+
+  @Column({ type: 'bytea' })
+  data: Buffer;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+}

@@ -5,6 +5,7 @@ import { Magnetic } from '../components/Magnetic'
 import { Typewriter } from '../components/Typewriter'
 import { useContent } from '../context/ContentContext'
 import { profile } from '../data/portfolio'
+import { useCvUrl } from '../hooks/useCvUrl'
 import { useProfilePhoto } from '../hooks/useProfilePhoto'
 import { EASE } from '../lib/motion'
 
@@ -27,6 +28,7 @@ export function Hero() {
   // Accroche et statut de disponibilité gérés depuis le CMS
   const { settings } = useContent()
   const { src: photoSrc, show: showPhoto, onError } = useProfilePhoto()
+  const cvUrl = useCvUrl()
 
   return (
     <section
@@ -149,7 +151,7 @@ export function Hero() {
 
             <Magnetic>
               <a
-                href={profile.cvUrl}
+                href={cvUrl}
                 download
                 className="group inline-flex items-center gap-2 px-2 py-3 text-sm font-semibold text-ink/60 transition-colors hover:text-accent"
               >
