@@ -160,6 +160,26 @@ export const RESOURCES: ResourceDef[] = [
     ],
   },
   {
+    key: 'clients',
+    label: 'Ils nous ont fait confiance',
+    description: 'Les entreprises affichées dans la section « Ils nous ont fait confiance ».',
+    fields: [
+      { name: 'name', label: 'Nom', type: 'text', required: true },
+      {
+        name: 'logoUrl',
+        label: 'Logo (URL)',
+        type: 'url',
+        help: 'Lien https://… vers le logo (PNG, SVG ou JPEG). Laisser vide pour n’afficher que le nom.',
+      },
+      {
+        name: 'href',
+        label: 'Site web',
+        type: 'url',
+        help: 'Rend la carte cliquable. Laisser vide s’il n’y a pas de lien.',
+      },
+    ],
+  },
+  {
     key: 'settings',
     label: 'Réglages',
     description: "Valeurs globales réutilisées sur l'ensemble du site.",

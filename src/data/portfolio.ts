@@ -72,6 +72,14 @@ export type SocialLink = {
   icon: 'linkedin' | 'github' | 'mail' | 'phone'
 }
 
+export type ClientItem = {
+  name: string
+  /** URL du logo. Absente = le nom est affiché. */
+  logoUrl?: string
+  /** Site de l’entreprise. Absent = la carte n’est pas un lien. */
+  href?: string
+}
+
 export type StatItem = {
   /** Valeur numérique animée par le compteur */
   value: number
@@ -276,6 +284,15 @@ export const socials: SocialLink[] = [
   { label: 'GitHub', href: '', icon: 'github' },
 ]
 
+/* -------------------- Ils nous ont fait confiance --------------------------- */
+
+export const clients: ClientItem[] = [
+  { name: 'Ignfi', href: 'https://sigfu.gouv.ci/' },
+  { name: 'Tropic Mad' },
+  { name: 'École MCA' },
+  { name: 'Domaine Avaradrano' },
+]
+
 /* -------------------------------- Navigation -------------------------------- */
 
 export const navItems: NavItem[] = [
@@ -284,6 +301,7 @@ export const navItems: NavItem[] = [
   { id: 'competences', label: 'Compétences' },
   { id: 'experience', label: 'Expérience' },
   { id: 'projets', label: 'Projets' },
+  { id: 'confiance', label: 'Confiance' },
   { id: 'parcours', label: 'Parcours' },
   { id: 'contact', label: 'Contact' },
 ]

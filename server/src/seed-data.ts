@@ -161,6 +161,13 @@ export const seedSocials = [
   { label: 'GitHub', href: '', icon: 'github' },
 ];
 
+export const seedClients = [
+  { name: 'Ignfi', logoUrl: '', href: 'https://sigfu.gouv.ci/' },
+  { name: 'Tropic Mad', logoUrl: '', href: '' },
+  { name: 'École MCA', logoUrl: '', href: '' },
+  { name: 'Domaine Avaradrano', logoUrl: '', href: '' },
+];
+
 export const seedSettings = [
   {
     key: 'yearsOfExperience',

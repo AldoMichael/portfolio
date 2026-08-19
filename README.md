@@ -69,6 +69,7 @@ Ces sections sont stockées en base PostgreSQL et se modifient dans le navigateu
 | Applications métier   | Les cartes de projets freelance                      |
 | Formation             | Les diplômes de la section « Parcours »              |
 | Langues               | Les barres de progression de niveau                  |
+| Ils nous ont fait confiance | Les logos / noms d’entreprises partenaires     |
 | Réglages              | Années d'expérience, accroche du Hero, disponibilité |
 
 Chaque liste se réordonne avec les flèches ↑ ↓ ; l'ordre est enregistré en base.

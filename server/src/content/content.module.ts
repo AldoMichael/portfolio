@@ -6,7 +6,7 @@ import { CvController } from './cv.controller';
 import { CvService } from './cv.service';
 import { PhotoController } from './photo.controller';
 import { PhotoService } from './photo.service';
-import { Education, Experience, Language, Project, Setting, SkillGroup, Social, Stat, ProfilePhoto, ProfileCv } from './entities';
+import { Education, Experience, Language, Project, Setting, SkillGroup, Social, Stat, ProfilePhoto, ProfileCv, Client } from './entities';
 
 export const CONTENT_ENTITIES = [
   Experience,
@@ -16,6 +16,7 @@ export const CONTENT_ENTITIES = [
   Education,
   Language,
   Social,
+  Client,
   Setting,
   ProfilePhoto,
   ProfileCv,

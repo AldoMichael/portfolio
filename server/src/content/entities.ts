@@ -192,6 +192,22 @@ export class Social extends ContentBase {
   icon: string;
 }
 
+/* -------------------- Entreprises / clients de confiance ------------------- */
+
+@Entity('clients')
+export class Client extends ContentBase {
+  @Column('varchar', { length: 160 })
+  name: string;
+
+  /** URL du logo (PNG, SVG, JPEG). Vide = le nom est affiché. */
+  @Column('varchar', { length: 500, name: 'logo_url', default: '' })
+  logoUrl: string;
+
+  /** Site de l’entreprise. Vide = la carte n’est pas un lien. */
+  @Column('varchar', { length: 500, default: '' })
+  href: string;
+}
+
 /* ------------------- Réglages divers (clé / valeur libre) ------------------- */
 
 @Entity('settings')

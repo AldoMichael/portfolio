@@ -14,6 +14,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import {
   about,
+  clients as staticClients,
   education as staticEducation,
   experiences as staticExperiences,
   languages as staticLanguages,
@@ -30,6 +31,7 @@ import type {
   SkillGroup,
   SocialLink,
   StatItem,
+  ClientItem,
 } from '../data/portfolio'
 import { apiRequest } from '../lib/api'
 
@@ -41,6 +43,7 @@ export type PortfolioContent = {
   education: EducationItem[]
   languages: LanguageItem[]
   socials: SocialLink[]
+  clients: ClientItem[]
   /** Valeurs globales (années d'expérience, disponibilité, accroche...) */
   settings: Record<string, string>
   /** Horodatage de la photo de profil, ou null s'il n'y en a pas. */
@@ -66,6 +69,7 @@ const fallbackContent: PortfolioContent = {
   education: staticEducation,
   languages: staticLanguages,
   socials: staticSocials,
+  clients: staticClients,
   settings: {
     yearsOfExperience: String(profile.yearsOfExperience),
     availability: profile.availability,
@@ -115,6 +119,7 @@ function normalize(payload: Partial<PortfolioContent> | null): PortfolioContent 
         ? (social.icon as SocialLink['icon'])
         : 'linkedin',
     })),
+    clients: Array.isArray(payload.clients) ? (payload.clients as ClientItem[]) : fallbackContent.clients,
     settings: { ...fallbackContent.settings, ...(payload.settings ?? {}) },
     profilePhotoVersion:
       typeof payload.profilePhotoVersion === 'number' ? payload.profilePhotoVersion : null,

@@ -17,7 +17,7 @@ export function Journey() {
   return (
     <Section
       id="parcours"
-      eyebrow="05 — Parcours"
+      eyebrow="06 — Parcours"
       title="Formation & langues"
       description="Une base académique en informatique, complétée par une pratique quotidienne en environnement international."
     >

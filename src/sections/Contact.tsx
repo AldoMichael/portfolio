@@ -97,7 +97,7 @@ export function Contact() {
   return (
     <Section
       id="contact"
-      eyebrow="06 — Contact"
+      eyebrow="07 — Contact"
       title={'Un projet en tête\u00A0? Parlons-en.'}
       description="Disponible pour des missions freelance, des collaborations à distance ou un poste en équipe."
     >

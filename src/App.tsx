@@ -13,6 +13,7 @@ import { Hero } from './sections/Hero'
 import { Journey } from './sections/Journey'
 import { Projects } from './sections/Projects'
 import { Skills } from './sections/Skills'
+import { TrustedBy } from './sections/TrustedBy'
 
 export default function App() {
   const [loading, setLoading] = useState(true)
@@ -40,6 +41,7 @@ export default function App() {
         <Skills />
         <Experience />
         <Projects />
+        <TrustedBy />
         <Journey />
         <Contact />
       </main>

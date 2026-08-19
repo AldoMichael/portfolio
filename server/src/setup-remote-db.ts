@@ -19,6 +19,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { hashPassword } from './auth/password';
 import {
+  seedClients,
   seedEducation,
   seedExperiences,
   seedLanguages,
@@ -129,6 +130,15 @@ async function run() {
   await fill('education', ['degree', 'school', 'year', 'detail'], seedEducation);
   await fill('languages', ['name', 'level', 'value'], seedLanguages);
   await fill('socials', ['label', 'href', 'icon'], seedSocials);
+  await fill(
+    'clients',
+    ['name', 'logo_url', 'href'],
+    seedClients.map((client) => ({
+      name: client.name,
+      logo_url: client.logoUrl,
+      href: client.href,
+    })),
+  );
   await fill('settings', ['key', 'label', 'value'], seedSettings);
 
   await upsertAdmin();

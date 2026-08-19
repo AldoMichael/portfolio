@@ -93,6 +93,16 @@ CREATE TABLE IF NOT EXISTS "socials" (
   "updated_at" TIMESTAMP NOT NULL DEFAULT now()
 );
 
+CREATE TABLE IF NOT EXISTS "clients" (
+  "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  "name" varchar(160) NOT NULL,
+  "logo_url" varchar(500) NOT NULL DEFAULT '',
+  "href" varchar(500) NOT NULL DEFAULT '',
+  "position" integer NOT NULL DEFAULT 0,
+  "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+  "updated_at" TIMESTAMP NOT NULL DEFAULT now()
+);
+
 CREATE TABLE IF NOT EXISTS "settings" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "key" varchar(80) NOT NULL UNIQUE,

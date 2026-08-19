@@ -18,6 +18,7 @@ import { DataSource, DeepPartial, EntityTarget, ObjectLiteral, Repository } from
 import { AppModule } from './app.module';
 import { AuthService } from './auth/auth.service';
 import {
+  Client,
   Education,
   Experience,
   Language,
@@ -28,6 +29,7 @@ import {
   Stat,
 } from './content/entities';
 import {
+  seedClients,
   seedEducation,
   seedExperiences,
   seedLanguages,
@@ -78,6 +80,7 @@ async function run() {
   await fill(Education, 'Formation', seedEducation);
   await fill(Language, 'Langues', seedLanguages);
   await fill(Social, 'Réseaux sociaux', seedSocials);
+  await fill(Client, 'Ils nous ont fait confiance', seedClients);
   await fill(Setting, 'Réglages', seedSettings);
 
   /* --------------------------- Compte administrateur ------------------------- */

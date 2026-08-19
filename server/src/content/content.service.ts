@@ -11,6 +11,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { ObjectLiteral, Repository } from 'typeorm';
 import {
+  Client,
   Education,
   Experience,
   Language,
@@ -39,6 +40,7 @@ export class ContentService {
     @InjectRepository(Education) private readonly education: Repository<Education>,
     @InjectRepository(Language) private readonly languages: Repository<Language>,
     @InjectRepository(Social) private readonly socials: Repository<Social>,
+    @InjectRepository(Client) private readonly clients: Repository<Client>,
     @InjectRepository(Setting) private readonly settings: Repository<Setting>,
     private readonly photos: PhotoService,
     private readonly cvs: CvService,
@@ -51,6 +53,7 @@ export class ContentService {
       education: this.education as Repository<ObjectLiteral>,
       languages: this.languages as Repository<ObjectLiteral>,
       socials: this.socials as Repository<ObjectLiteral>,
+      clients: this.clients as Repository<ObjectLiteral>,
       settings: this.settings as Repository<ObjectLiteral>,
     };
   }
@@ -62,7 +65,7 @@ export class ContentService {
    * Le portfolio n'a ainsi qu'une requête à faire au chargement.
    */
   async getPublicContent() {
-    const [experiences, skillGroups, stats, projects, education, languages, socials, settings, profilePhotoVersion, cv] =
+    const [experiences, skillGroups, stats, projects, education, languages, socials, clients, settings, profilePhotoVersion, cv] =
       await Promise.all([
         this.experiences.find({ order: ORDER }),
         this.skillGroups.find({ order: ORDER }),
@@ -71,6 +74,7 @@ export class ContentService {
         this.education.find({ order: ORDER }),
         this.languages.find({ order: ORDER }),
         this.socials.find({ order: ORDER }),
+        this.clients.find({ order: ORDER }),
         this.settings.find({ order: ORDER }),
         this.photos.getVersion(),
         this.cvs.getMeta(),
@@ -125,6 +129,11 @@ export class ContentService {
         label: social.label,
         href: social.href,
         icon: social.icon,
+      })),
+      clients: clients.map((client) => ({
+        name: client.name,
+        logoUrl: client.logoUrl || undefined,
+        href: client.href || undefined,
       })),
       // Transformé en objet clé → valeur, plus pratique à consommer côté front.
       settings: Object.fromEntries(settings.map((setting) => [setting.key, setting.value])),
