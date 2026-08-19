@@ -299,7 +299,7 @@ export const navItems: NavItem[] = [
   { id: 'accueil', label: 'Accueil' },
   { id: 'a-propos', label: 'À propos' },
   { id: 'competences', label: 'Compétences' },
-  { id: 'experience', label: 'Expérience' },
+  { id: 'experience', label: 'Expériences' },
   { id: 'projets', label: 'Projets' },
   { id: 'confiance', label: 'Confiance' },
   { id: 'parcours', label: 'Parcours' },
