@@ -97,3 +97,40 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
   if (response.status === 204) return undefined as T
   return (await response.json()) as T
 }
+
+/** Envoi d'un fichier (FormData) — ne pas forcer Content-Type JSON. */
+export async function apiUpload<T>(path: string, file: File): Promise<T> {
+  const token = getToken()
+  if (!token) throw new ApiError('Session expirée, veuillez vous reconnecter.', 401)
+
+  const body = new FormData()
+  body.append('file', file)
+
+  let response: Response
+  try {
+    response = await fetch(`${API_URL}${path}`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}` },
+      body,
+    })
+  } catch {
+    throw new ApiError("Impossible de joindre l'API. Vérifiez qu'elle est démarrée.", 0)
+  }
+
+  if (!response.ok) {
+    if (response.status === 401) setToken(null)
+    const payload = await response.json().catch(() => null)
+    const message = Array.isArray(payload?.message)
+      ? payload.message.join(', ')
+      : (payload?.message ?? `Erreur ${response.status}`)
+    throw new ApiError(message, response.status)
+  }
+
+  return (await response.json()) as T
+}
+
+/** URL publique de la photo de profil, ou null si l’API n’est pas configurée. */
+export function profilePhotoUrl(version: number | null | undefined): string | null {
+  if (!API_URL) return null
+  return version ? `${API_URL}/api/photo?v=${version}` : `${API_URL}/api/photo`
+}

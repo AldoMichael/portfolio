@@ -103,6 +103,13 @@ CREATE TABLE IF NOT EXISTS "settings" (
   "updated_at" TIMESTAMP NOT NULL DEFAULT now()
 );
 
+CREATE TABLE IF NOT EXISTS "profile_photos" (
+  "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  "mime" varchar(80) NOT NULL,
+  "data" bytea NOT NULL,
+  "updated_at" TIMESTAMP NOT NULL DEFAULT now()
+);
+
 CREATE TABLE IF NOT EXISTS "admin_users" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "email" varchar(180) NOT NULL UNIQUE,

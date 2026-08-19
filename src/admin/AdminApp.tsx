@@ -13,6 +13,7 @@ import { AlertCircle, ArrowLeft, LayoutGrid, Loader2, LockKeyhole, LogOut } from
 import { useEffect, useState } from 'react'
 import { apiRequest, getToken, setToken } from '../lib/api'
 import { ThemeToggle } from '../components/ThemeToggle'
+import { PhotoEditor } from './PhotoEditor'
 import { ResourceEditor } from './ResourceEditor'
 import type { ResourceDef } from './types'
 
@@ -170,11 +171,12 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
     apiRequest<ResourceDef[]>('/api/schema')
       .then((list) => {
         setResources(list)
-        setActiveKey((current) => current ?? list[0]?.key ?? null)
+        setActiveKey((current) => current ?? '_photo')
       })
       .catch((err) => setError(err instanceof Error ? err.message : 'Schéma indisponible.'))
   }, [])
 
+  const navItems = [{ key: '_photo', label: 'Photo de profil' }, ...resources]
   const active = resources.find((resource) => resource.key === activeKey)
 
   return (
@@ -209,7 +211,7 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
         {/* Navigation entre les ressources */}
         <nav className="mb-8 lg:mb-0 lg:w-56 lg:shrink-0">
           <ul className="flex gap-2 overflow-x-auto pb-2 no-scrollbar lg:flex-col lg:overflow-visible lg:pb-0">
-            {resources.map((resource) => (
+            {navItems.map((resource) => (
               <li key={resource.key} className="shrink-0 lg:shrink">
                 <button
                   type="button"
@@ -235,7 +237,11 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
             </p>
           )}
 
-          {active && <ResourceEditor key={active.key} resource={active} />}
+          {activeKey === '_photo' ? (
+            <PhotoEditor />
+          ) : (
+            active && <ResourceEditor key={active.key} resource={active} />
+          )}
         </main>
       </div>
     </div>

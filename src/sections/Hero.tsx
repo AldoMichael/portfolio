@@ -1,10 +1,12 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowDown, Download, Mail, MapPin, Sparkles } from 'lucide-react'
+import { useState } from 'react'
 import { AnimatedBackground } from '../components/AnimatedBackground'
 import { Magnetic } from '../components/Magnetic'
 import { Typewriter } from '../components/Typewriter'
 import { useContent } from '../context/ContentContext'
 import { profile } from '../data/portfolio'
+import { profilePhotoUrl } from '../lib/api'
 import { EASE } from '../lib/motion'
 
 /**
@@ -22,9 +24,12 @@ const NAME_LINES = [profile.firstName, profile.lastName].map((line) =>
 
 export function Hero() {
   const reduceMotion = useReducedMotion()
+  const [photoFailed, setPhotoFailed] = useState(false)
 
   // Accroche et statut de disponibilité gérés depuis le CMS
-  const { settings } = useContent()
+  const { settings, profilePhotoVersion } = useContent()
+  const photoSrc = profilePhotoUrl(profilePhotoVersion)
+  const showPhoto = Boolean(photoSrc) && !photoFailed
 
   return (
     <section
@@ -34,7 +39,8 @@ export function Hero() {
       <AnimatedBackground />
 
       <div className="container-page relative z-10">
-        <div className="max-w-4xl">
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,28rem)] lg:gap-16">
+        <div className="min-w-0">
           {/* Badge de disponibilité */}
           <motion.div
             initial={reduceMotion ? undefined : { opacity: 0, y: 16 }}
@@ -155,6 +161,29 @@ export function Hero() {
               </a>
             </Magnetic>
           </motion.div>
+        </div>
+
+          {showPhoto && (
+            <motion.div
+              initial={reduceMotion ? undefined : { opacity: 0, x: 32, scale: 0.96 }}
+              animate={reduceMotion ? undefined : { opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.45, ease: EASE }}
+              className="relative mx-auto w-full max-w-md max-lg:order-first lg:mx-0 lg:max-w-none"
+            >
+              <div
+                aria-hidden
+                className="absolute -inset-6 rounded-[2.25rem] bg-accent/20 blur-3xl"
+              />
+              <div className="relative overflow-hidden rounded-[2rem] border border-accent/30 bg-page-2 shadow-glow">
+                <img
+                  src={photoSrc!}
+                  alt={`Portrait de ${profile.fullName}`}
+                  onError={() => setPhotoFailed(true)}
+                  className="aspect-[4/5] h-auto w-full object-cover"
+                />
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
 

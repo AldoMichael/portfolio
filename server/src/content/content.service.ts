@@ -21,6 +21,7 @@ import {
   Stat,
 } from './entities';
 import { FieldDef, RESOURCES, RESOURCE_MAP } from './schema';
+import { PhotoService } from './photo.service';
 
 /** Tri commun : position croissante, puis date de création. */
 const ORDER = { position: 'ASC', createdAt: 'ASC' } as const;
@@ -38,6 +39,7 @@ export class ContentService {
     @InjectRepository(Language) private readonly languages: Repository<Language>,
     @InjectRepository(Social) private readonly socials: Repository<Social>,
     @InjectRepository(Setting) private readonly settings: Repository<Setting>,
+    private readonly photos: PhotoService,
   ) {
     this.repositories = {
       experiences: this.experiences as Repository<ObjectLiteral>,
@@ -58,7 +60,7 @@ export class ContentService {
    * Le portfolio n'a ainsi qu'une requête à faire au chargement.
    */
   async getPublicContent() {
-    const [experiences, skillGroups, stats, projects, education, languages, socials, settings] =
+    const [experiences, skillGroups, stats, projects, education, languages, socials, settings, profilePhotoVersion] =
       await Promise.all([
         this.experiences.find({ order: ORDER }),
         this.skillGroups.find({ order: ORDER }),
@@ -68,6 +70,7 @@ export class ContentService {
         this.languages.find({ order: ORDER }),
         this.socials.find({ order: ORDER }),
         this.settings.find({ order: ORDER }),
+        this.photos.getVersion(),
       ]);
 
     return {
@@ -122,6 +125,7 @@ export class ContentService {
       })),
       // Transformé en objet clé → valeur, plus pratique à consommer côté front.
       settings: Object.fromEntries(settings.map((setting) => [setting.key, setting.value])),
+      profilePhotoVersion,
     };
   }
 

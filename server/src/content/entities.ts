@@ -206,3 +206,20 @@ export class Setting extends ContentBase {
   @Column('text', { default: '' })
   value: string;
 }
+
+/* ----------------------------- Photo de profil ----------------------------- */
+
+@Entity('profile_photos')
+export class ProfilePhoto {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column('varchar', { length: 80 })
+  mime: string;
+
+  @Column({ type: 'bytea' })
+  data: Buffer;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+}

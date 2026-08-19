@@ -1,10 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Download, Palette, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useContent } from '../context/ContentContext'
 import { navItems, profile } from '../data/portfolio'
 import { useActiveSection } from '../hooks/useActiveSection'
 import { useScrolled } from '../hooks/useScrolled'
 import { useAccent } from '../hooks/useAccent'
+import { profilePhotoUrl } from '../lib/api'
 import { EASE } from '../lib/motion'
 import { ThemeToggle } from './ThemeToggle'
 
@@ -16,7 +18,10 @@ export function Navbar() {
   const active = useActiveSection(SECTION_IDS)
   const [menuOpen, setMenuOpen] = useState(false)
   const [paletteOpen, setPaletteOpen] = useState(false)
+  const [photoFailed, setPhotoFailed] = useState(false)
   const { accentIndex, setAccent, presets } = useAccent()
+  const { profilePhotoVersion } = useContent()
+  const photoSrc = profilePhotoUrl(profilePhotoVersion)
 
   // Empêche le défilement de l'arrière-plan quand le menu mobile est ouvert
   useEffect(() => {
@@ -45,8 +50,17 @@ export function Navbar() {
             className="group flex items-center gap-3"
             aria-label="Retour à l'accueil"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-accent/40 bg-accent/10 font-display text-sm font-bold text-accent transition-transform duration-300 group-hover:scale-110 group-hover:shadow-glow-sm">
-              {profile.initials}
+            <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-accent/40 bg-accent/10 font-display text-sm font-bold text-accent transition-transform duration-300 group-hover:scale-110 group-hover:shadow-glow-sm">
+              {photoSrc && !photoFailed ? (
+                <img
+                  src={photoSrc}
+                  alt=""
+                  onError={() => setPhotoFailed(true)}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                profile.initials
+              )}
             </span>
             <span className="hidden font-display text-sm font-semibold tracking-tight text-ink sm:block">
               {profile.firstName.split(' ')[0]}{' '}

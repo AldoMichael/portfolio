@@ -1,6 +1,8 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { profile } from '../data/portfolio'
+import { useContent } from '../context/ContentContext'
+import { profilePhotoUrl } from '../lib/api'
 import { EASE } from '../lib/motion'
 
 type LoaderProps = {
@@ -15,6 +17,9 @@ type LoaderProps = {
 export function Loader({ onComplete }: LoaderProps) {
   const reduceMotion = useReducedMotion()
   const [progress, setProgress] = useState(0)
+  const [photoFailed, setPhotoFailed] = useState(false)
+  const { profilePhotoVersion } = useContent()
+  const photoSrc = profilePhotoUrl(profilePhotoVersion)
 
   useEffect(() => {
     if (reduceMotion) {
@@ -52,12 +57,21 @@ export function Loader({ onComplete }: LoaderProps) {
         transition={{ duration: 0.6, ease: EASE }}
         className="relative flex flex-col items-center gap-6"
       >
-        {/* Monogramme avec anneau pulsé */}
-        <div className="relative flex h-20 w-20 items-center justify-center">
+        {/* Photo de profil (ou initiales en repli), plus grande qu'un monogramme */}
+        <div className="relative flex h-52 w-52 items-center justify-center sm:h-64 sm:w-64">
           <span className="absolute inset-0 animate-pulse-ring rounded-full border border-accent/50" />
-          <span className="flex h-full w-full items-center justify-center rounded-full border border-accent/30 bg-accent/10 font-display text-2xl font-bold text-accent">
-            {profile.initials}
-          </span>
+          {photoSrc && !photoFailed ? (
+            <img
+              src={photoSrc}
+              alt=""
+              onError={() => setPhotoFailed(true)}
+              className="relative h-full w-full rounded-full border-2 border-accent/40 object-cover shadow-glow-sm"
+            />
+          ) : (
+            <span className="relative flex h-full w-full items-center justify-center rounded-full border border-accent/30 bg-accent/10 font-display text-4xl font-bold text-accent sm:text-5xl">
+              {profile.initials}
+            </span>
+          )}
         </div>
 
         <p className="font-mono text-xs uppercase tracking-[0.4em] text-ink/40">

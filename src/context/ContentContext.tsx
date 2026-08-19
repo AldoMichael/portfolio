@@ -43,6 +43,8 @@ export type PortfolioContent = {
   socials: SocialLink[]
   /** Valeurs globales (années d'expérience, disponibilité, accroche...) */
   settings: Record<string, string>
+  /** Horodatage de la photo de profil, ou null s'il n'y en a pas. */
+  profilePhotoVersion: number | null
 }
 
 type ContentState = PortfolioContent & {
@@ -66,6 +68,7 @@ const fallbackContent: PortfolioContent = {
     availability: profile.availability,
     tagline: profile.tagline,
   },
+  profilePhotoVersion: null,
 }
 
 const ContentContext = createContext<ContentState>({
@@ -108,6 +111,8 @@ function normalize(payload: Partial<PortfolioContent> | null): PortfolioContent 
         : 'linkedin',
     })),
     settings: { ...fallbackContent.settings, ...(payload.settings ?? {}) },
+    profilePhotoVersion:
+      typeof payload.profilePhotoVersion === 'number' ? payload.profilePhotoVersion : null,
   }
 }
 
