@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { accentPresets } from '../data/portfolio'
 
-const STORAGE_KEY = 'portfolio-accent'
+const STORAGE_KEY = 'portfolio-accent-v2'
 
 /**
  * Gère la couleur d'accent du site.

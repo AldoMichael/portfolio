@@ -9,8 +9,8 @@
    ============================================================= */
 @layer base {
   :root {
-    --accent: 245 158 11; /* ambre / orange (par défaut) */
-    --accent-soft: 251 191 36;
+    --accent: 59 130 246; /* bleu (par défaut) */
+    --accent-soft: 96 165 250;
     --cursor-x: 50vw;
     --cursor-y: 50vh;
   }

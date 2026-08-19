@@ -345,7 +345,7 @@ function Field({
           type="checkbox"
           checked={value === true}
           onChange={(event) => onChange(event.target.checked)}
-          className="h-4 w-4 accent-amber-500"
+          className="h-4 w-4 accent-blue-500"
         />
         {field.label}
       </label>

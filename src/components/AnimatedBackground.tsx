@@ -35,7 +35,7 @@ export function AnimatedBackground() {
 
     /** Lit la couleur d'accent courante depuis les variables CSS */
     const readAccent = () =>
-      getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '245 158 11'
+      getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '59 130 246'
     let accent = readAccent()
 
     const resize = () => {

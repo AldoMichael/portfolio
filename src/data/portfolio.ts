@@ -292,10 +292,11 @@ export const navItems: NavItem[] = [
 /* Utilisées par le sélecteur d'accent dans la navbar (valeurs RGB brutes).     */
 
 export const accentPresets = [
-  { name: 'Ambre', value: '245 158 11', soft: '251 191 36' },
-  { name: 'Orange', value: '249 115 22', soft: '251 146 60' },
-  { name: 'Émeraude', value: '16 185 129', soft: '52 211 153' },
+  { name: 'Bleu', value: '59 130 246', soft: '96 165 250' },
   { name: 'Cyan', value: '34 211 238', soft: '103 232 249' },
   { name: 'Violet', value: '139 92 246', soft: '167 139 250' },
+  { name: 'Émeraude', value: '16 185 129', soft: '52 211 153' },
+  { name: 'Ambre', value: '245 158 11', soft: '251 191 36' },
+  { name: 'Orange', value: '249 115 22', soft: '251 146 60' },
   { name: 'Rose', value: '244 63 94', soft: '251 113 133' },
 ] as const
