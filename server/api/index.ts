@@ -30,6 +30,40 @@ function allowedOrigins(): string[] {
     .filter(Boolean);
 }
 
+/** Transforme `https://foo-*.vercel.app` en expression régulière. */
+function wildcardToRegExp(pattern: string): RegExp {
+  const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '[a-z0-9-]+');
+  return new RegExp(`^${escaped}$`, 'i');
+}
+
+/**
+ * Les déploiements Preview Vercel ont une URL du type
+ * `https://projet-hash-equipe.vercel.app`, différente du domaine de production
+ * `https://projet-equipe.vercel.app`. On les autorise automatiquement.
+ */
+function isVercelPreviewOf(origin: string, productionOrigin: string): boolean {
+  const match = productionOrigin.match(
+    /^https:\/\/([a-z0-9]+)-((?:[a-z0-9]+-)*[a-z0-9]+)\.vercel\.app$/i,
+  );
+  if (!match) return false;
+  const preview = new RegExp(
+    `^https://${match[1]}-[a-z0-9]+-${match[2]}\\.vercel\\.app$`,
+    'i',
+  );
+  return preview.test(origin);
+}
+
+function isOriginAllowed(origin: string): boolean {
+  const normalized = origin.replace(/\/$/, '');
+  if (!normalized) return false;
+
+  return allowedOrigins().some((pattern) => {
+    if (pattern === normalized) return true;
+    if (pattern.includes('*') && wildcardToRegExp(pattern).test(normalized)) return true;
+    return !pattern.includes('*') && isVercelPreviewOf(normalized, pattern);
+  });
+}
+
 /**
  * Pose les en-têtes CORS avant même l'amorçage de Nest.
  * Sinon le preflight OPTIONS du navigateur échoue (pas d'Access-Control-Allow-Origin)
@@ -37,8 +71,7 @@ function allowedOrigins(): string[] {
  */
 function applyCors(request: Request, response: Response): boolean {
   const origin = String(request.headers.origin ?? '').replace(/\/$/, '');
-  const allowed = allowedOrigins();
-  const ok = origin.length > 0 && allowed.includes(origin);
+  const ok = isOriginAllowed(origin);
 
   if (ok) {
     response.setHeader('Access-Control-Allow-Origin', origin);
@@ -68,7 +101,13 @@ async function bootstrap() {
     logger: ['error', 'warn'],
   });
 
-  app.enableCors({ origin: origins, credentials: true });
+  app.enableCors({
+    origin: (requestOrigin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+      if (!requestOrigin || isOriginAllowed(requestOrigin)) callback(null, true);
+      else callback(null, false);
+    },
+    credentials: true,
+  });
   await app.init();
 }
 
