@@ -1,11 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { CheckCircle2, Github, Linkedin, Mail, MapPin, Phone, Send } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { CheckCircle2, Github, Linkedin, Loader2, Mail, MapPin, Phone, Send } from 'lucide-react'
+import { useMemo, useRef, useState } from 'react'
 import { Magnetic } from '../components/Magnetic'
 import { Reveal } from '../components/Reveal'
 import { Section } from '../components/Section'
 import { profile } from '../data/portfolio'
 import { useContent } from '../context/ContentContext'
+import { ApiError, apiRequest } from '../lib/api'
 import { EXTERNAL_LINK_PROPS, safeUrl } from '../lib/links'
 import { EASE } from '../lib/motion'
 
@@ -46,6 +47,9 @@ export function Contact() {
   })
   const [touched, setTouched] = useState<Partial<Record<keyof FormFields, boolean>>>({})
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const honeypotRef = useRef<HTMLInputElement>(null)
 
   const errors = useMemo(() => validate(values), [values])
   const isValid = Object.keys(errors).length === 0
@@ -57,23 +61,31 @@ export function Contact() {
   const handleBlur = (field: keyof FormFields) => () =>
     setTouched((previous) => ({ ...previous, [field]: true }))
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setTouched({ name: true, email: true, subject: true, message: true })
-    if (!isValid) return
+    if (!isValid || sending) return
 
-    // Envoi via le client mail de l'utilisateur.
-    // Pour un envoi sans quitter le site, voir la section EmailJS du README.
-    const body = `${values.message}\n\n—\n${values.name}\n${values.email}`
-    const mailto = `mailto:${profile.email}?subject=${encodeURIComponent(
-      values.subject,
-    )}&body=${encodeURIComponent(body)}`
-    window.location.href = mailto
-
-    setSent(true)
-    setValues({ name: '', email: '', subject: '', message: '' })
-    setTouched({})
-    window.setTimeout(() => setSent(false), 6000)
+    setSending(true)
+    setSubmitError(null)
+    try {
+      await apiRequest('/api/contact', {
+        method: 'POST',
+        body: { ...values, website: honeypotRef.current?.value ?? '' },
+      })
+      setSent(true)
+      setValues({ name: '', email: '', subject: '', message: '' })
+      setTouched({})
+      window.setTimeout(() => setSent(false), 6000)
+    } catch (err) {
+      setSubmitError(
+        err instanceof ApiError
+          ? err.message
+          : 'Impossible d’envoyer le message. Réessayez dans un instant.',
+      )
+    } finally {
+      setSending(false)
+    }
   }
 
   const contactCards = [
@@ -168,17 +180,28 @@ export function Contact() {
                     <CheckCircle2 className="h-8 w-8" />
                   </motion.span>
                   <h3 className="font-display text-xl font-semibold text-ink">
-                    {'Message prêt\u00A0!'}
+                    {'Message envoyé\u00A0!'}
                   </h3>
                   <p className="max-w-xs text-center text-sm text-ink/55">
-                    Votre logiciel de messagerie vient de s’ouvrir avec le message pré-rempli. Il ne
-                    reste plus qu’à l’envoyer.
+                    Merci. Je vous réponds généralement sous 48 h.
                   </p>
                 </motion.div>
               )}
             </AnimatePresence>
 
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
+              {/* Honeypot anti-spam, invisible pour les humains */}
+              <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden>
+                <label htmlFor="website">Site web</label>
+                <input
+                  ref={honeypotRef}
+                  id="website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field
                   id="name"
@@ -226,16 +249,26 @@ export function Contact() {
                 onBlur={handleBlur('message')}
               />
 
+              {submitError && (
+                <p className="text-sm text-rose-400" role="alert">
+                  {submitError}
+                </p>
+              )}
+
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <Magnetic>
                   <motion.button
                     type="submit"
                     whileTap={{ scale: 0.97 }}
                     className="btn-primary disabled:cursor-not-allowed disabled:opacity-40"
-                    disabled={!isValid}
+                    disabled={!isValid || sending}
                   >
-                    Envoyer le message
-                    <Send className="h-4 w-4" />
+                    {sending ? 'Envoi…' : 'Envoyer le message'}
+                    {sending ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Send className="h-4 w-4" />
+                    )}
                   </motion.button>
                 </Magnetic>
 
