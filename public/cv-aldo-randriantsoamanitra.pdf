@@ -1,0 +1,100 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 2 /Kids [3 0 R 4 0 R] /MediaBox [0 0 595.28 841.89] >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 7 0 R /F2 8 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 7 0 R /F2 8 0 R >> >> /Contents 6 0 R >>
+endobj
+5 0 obj
+<< /Length 4576 >>
+stream
+0.02 0.03 0.05 rg 0 723.89 595.28 118 re f
+BT 1 1 1 rg /F2 17 Tf 1 0 0 1 56 789.89 Tm (ALDO MICHAEL FIRMIN RANDRIANTSOAMANITRA) Tj ET
+BT 0.96 0.62 0.04 rg /F2 11.5 Tf 1 0 0 1 56 766.89 Tm (Développeur Web / Développeur Full Stack) Tj ET
+BT 0.75 0.77 0.8 rg /F1 9 Tf 1 0 0 1 56 749.39 Tm (Madagascar  |  +261 38 56 968 08  |  randriantsoamanitramichael1@gmail.com) Tj ET
+BT 0.96 0.62 0.04 rg /F2 11.5 Tf 1 0 0 1 56 683.89 Tm (PROFIL) Tj ET
+0.9 0.9 0.92 rg 56 668.39 483.28 1.2 re f
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 56 656.39 Tm (Développeur Web Full Stack avec plus de 5 ans d'expérience dans le développement d'applications) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 56 642.39 Tm (web, le support ERP, le développement backend et frontend ainsi que la gestion de bases de) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 56 628.39 Tm (données. Habitué à analyser les besoins métiers, concevoir des solutions sur mesure et assurer) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 56 614.39 Tm (leur maintenance.) Tj ET
+BT 0.96 0.62 0.04 rg /F2 11.5 Tf 1 0 0 1 56 592.39 Tm (COMPÉTENCES) Tj ET
+0.9 0.9 0.92 rg 56 576.89 483.28 1.2 re f
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 56 564.89 Tm ("  Langages / Frontend : PHP, JavaScript, TypeScript, HTML, CSS, Bootstrap, Angular) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 56 550.89 Tm ("  Backend / Frameworks : Laravel, CodeIgniter, NestJS, Oracle APEX) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 56 536.89 Tm ("  Bases de données : SQL, PL/SQL, MySQL, Oracle Database) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 56 522.89 Tm ("  Autres : Keycloak) Tj ET
+BT 0.96 0.62 0.04 rg /F2 11.5 Tf 1 0 0 1 56 500.89 Tm (EXPÉRIENCE PROFESSIONNELLE) Tj ET
+0.9 0.9 0.92 rg 56 485.39 483.28 1.2 re f
+BT 0.96 0.62 0.04 rg /F2 9 Tf 1 0 0 1 56 473.39 Tm (01/2024 - 05/2025) Tj ET
+BT 0.15 0.17 0.21 rg /F2 11 Tf 1 0 0 1 56 460.39 Tm (Développeur Web - Ignfi \(Côte d'Ivoire\)) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 445.39 Tm (-  Mise à jour et optimisation du portail SIGFU pour la Côte d'Ivoire) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 431.39 Tm (-  Intégration d'améliorations fonctionnelles et techniques) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 417.39 Tm (-  Maintenance évolutive et corrective de la plateforme) Tj ET
+BT 0.96 0.62 0.04 rg /F2 9 Tf 1 0 0 1 56 397.39 Tm (06/2020 - 01/2024) Tj ET
+BT 0.15 0.17 0.21 rg /F2 11 Tf 1 0 0 1 56 384.39 Tm (Développeur ERP - Tropic Mad \(Madagascar, Maurice\)) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 369.39 Tm (-  Développement et maintenance d'applications ERP sous Oracle APEX) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 355.39 Tm (-  Support technique et accompagnement des utilisateurs) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 341.39 Tm (-  Analyse des besoins métiers et optimisation des bases Oracle) Tj ET
+BT 0.96 0.62 0.04 rg /F2 9 Tf 1 0 0 1 56 321.39 Tm (03/2018 - 06/2020) Tj ET
+BT 0.15 0.17 0.21 rg /F2 11 Tf 1 0 0 1 56 308.39 Tm (Graphic Designer - Tropic Mad \(Madagascar\)) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 293.39 Tm (-  Création de supports graphiques et visuels des produits textiles de marques) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 279.39 Tm (-  Supports de communication interne) Tj ET
+BT 0.96 0.62 0.04 rg /F2 9 Tf 1 0 0 1 56 259.39 Tm (2017 - 2018) Tj ET
+BT 0.15 0.17 0.21 rg /F2 11 Tf 1 0 0 1 56 246.39 Tm (Développeur Backend - Site Sortez et Vivre Versailles \(Madagascar\)) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 231.39 Tm (-  Développement backend et gestion de la logique applicative) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 217.39 Tm (-  Optimisation des performances et gestion des données) Tj ET
+BT 0.96 0.62 0.04 rg /F2 9 Tf 1 0 0 1 56 197.39 Tm (2014) Tj ET
+BT 0.15 0.17 0.21 rg /F2 11 Tf 1 0 0 1 56 184.39 Tm (Modérateur Web - Sweaze \(Madagascar\)) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 169.39 Tm (-  Modération de contenu et gestion de la communauté) Tj ET
+BT 0.96 0.62 0.04 rg /F2 11.5 Tf 1 0 0 1 56 141.39 Tm (PROJETS FREELANCE) Tj ET
+0.9 0.9 0.92 rg 56 125.89 483.28 1.2 re f
+BT 0.15 0.17 0.21 rg /F2 10.5 Tf 1 0 0 1 56 113.89 Tm (Gestion des assiduités par reconnaissance faciale - École MCA \(02/2025\)) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 99.39 Tm (-  Identification automatique des élèves par scan facial) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 85.39 Tm (-  Automatisation des présences, absences et retards) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 71.39 Tm (-  Génération de rapports pour l'administration scolaire) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Length 974 >>
+stream
+BT 0.15 0.17 0.21 rg /F2 10.5 Tf 1 0 0 1 56 785.89 Tm (Traçabilité des livres - Domaine Avaradrano, Madagascar \(06/2025\)) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 771.39 Tm (-  Suivi des ouvrages : entrées, sorties et historique des mouvements) Tj ET
+BT 0.15 0.17 0.21 rg /F2 10.5 Tf 1 0 0 1 56 751.39 Tm (Suivi documentaire - Domaine Avaradrano, Madagascar \(09/2025\)) Tj ET
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 66 736.89 Tm (-  Gestion des documents administratifs : statuts, traçabilité et archivage) Tj ET
+BT 0.96 0.62 0.04 rg /F2 11.5 Tf 1 0 0 1 56 708.89 Tm (FORMATION) Tj ET
+0.9 0.9 0.92 rg 56 693.39 483.28 1.2 re f
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 56 681.39 Tm (Master I en Informatique - Université INATA \(2015\)) Tj ET
+BT 0.96 0.62 0.04 rg /F2 11.5 Tf 1 0 0 1 56 659.39 Tm (LANGUES) Tj ET
+0.9 0.9 0.92 rg 56 643.89 483.28 1.2 re f
+BT 0.15 0.17 0.21 rg /F1 10 Tf 1 0 0 1 56 631.89 Tm (Français : intermédiaire  |  Anglais : intermédiaire) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+8 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000151 00000 n 
+0000000263 00000 n 
+0000000375 00000 n 
+0000005002 00000 n 
+0000006026 00000 n 
+0000006123 00000 n 
+trailer
+<< /Size 9 /Root 1 0 R >>
+startxref
+6225
+%%EOF

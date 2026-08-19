@@ -1,0 +1,93 @@
+/**
+ * ============================================================================
+ *  CLIENT API
+ * ----------------------------------------------------------------------------
+ *  Petite couche au-dessus de fetch pour dialoguer avec l'API NestJS :
+ *  construction des URLs, en-tête d'authentification et gestion des erreurs.
+ * ============================================================================
+ */
+
+/** Définie dans .env (VITE_API_URL). Valeur par défaut : serveur local. */
+export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3001'
+
+const TOKEN_KEY = 'portfolio.admin.token'
+
+/* ------------------------------ Jeton d'accès ------------------------------ */
+
+export function getToken(): string | null {
+  try {
+    return window.localStorage.getItem(TOKEN_KEY)
+  } catch {
+    return null
+  }
+}
+
+export function setToken(token: string | null) {
+  try {
+    if (token) window.localStorage.setItem(TOKEN_KEY, token)
+    else window.localStorage.removeItem(TOKEN_KEY)
+  } catch {
+    /* localStorage indisponible (navigation privée) : on ignore silencieusement */
+  }
+}
+
+/* -------------------------------- Requêtes --------------------------------- */
+
+/** Erreur d'API portant le code HTTP, pour distinguer un 401 du reste. */
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+  ) {
+    super(message)
+    this.name = 'ApiError'
+  }
+}
+
+type RequestOptions = {
+  method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
+  body?: unknown
+  /** Joint le jeton d'administration à la requête. */
+  auth?: boolean
+  signal?: AbortSignal
+}
+
+export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
+  const { method = 'GET', body, auth = false, signal } = options
+  const headers: Record<string, string> = {}
+
+  if (body !== undefined) headers['Content-Type'] = 'application/json'
+
+  if (auth) {
+    const token = getToken()
+    if (!token) throw new ApiError('Session expirée, veuillez vous reconnecter.', 401)
+    headers.Authorization = `Bearer ${token}`
+  }
+
+  let response: Response
+  try {
+    response = await fetch(`${API_URL}${path}`, {
+      method,
+      headers,
+      signal,
+      body: body === undefined ? undefined : JSON.stringify(body),
+    })
+  } catch {
+    throw new ApiError("Impossible de joindre l'API. Vérifiez qu'elle est démarrée.", 0)
+  }
+
+  if (!response.ok) {
+    // Un 401 signifie que le jeton n'est plus valable : on le purge.
+    if (response.status === 401) setToken(null)
+
+    const payload = await response.json().catch(() => null)
+    const message = Array.isArray(payload?.message)
+      ? payload.message.join(', ')
+      : (payload?.message ?? `Erreur ${response.status}`)
+
+    throw new ApiError(message, response.status)
+  }
+
+  if (response.status === 204) return undefined as T
+  return (await response.json()) as T
+}

@@ -1,0 +1,15 @@
+# Normalisation des fins de ligne : LF dans le dépôt, natif dans la copie locale
+* text=auto eol=lf
+
+# Fichiers binaires : ne jamais convertir les fins de ligne (cela les corromprait)
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary

@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================
+   Variables globales
+   L'accent est stocké en RGB brut pour être utilisable avec
+   l'opacité Tailwind (ex. bg-accent/20) et modifiable à chaud.
+   ============================================================= */
+@layer base {
+  :root {
+    --accent: 245 158 11; /* ambre / orange (par défaut) */
+    --accent-soft: 251 191 36;
+    --cursor-x: 50vw;
+    --cursor-y: 50vh;
+  }
+
+  * {
+    @apply border-white/10;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Décalage pour la navbar sticky lors des ancres */
+    scroll-padding-top: 6rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-night-950 font-sans text-white/70 antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-bold text-white;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-white;
+  }
+
+  /* Barre de défilement discrète */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-night-950;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-white/10;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent/60;
+  }
+
+  /* Accessibilité : focus visible */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent/70 ring-offset-2 ring-offset-night-950;
+  }
+
+  /* Respect de la préférence système « animations réduites » :
+     on neutralise toutes les animations CSS et transitions. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Conteneur standard des sections */
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  /* Carte « verre dépoli » utilisée un peu partout */
+  .glass-card {
+    @apply relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm transition-colors duration-300;
+  }
+  .glass-card:hover {
+    @apply border-accent/40 bg-white/[0.05];
+  }
+
+  /* Petite étiquette (catégorie de section, badges) */
+  .chip {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-white/60;
+  }
+
+  /* Lien avec soulignement animé */
+  .link-underline {
+    @apply relative inline-block text-white/70 transition-colors duration-300 hover:text-white;
+  }
+  .link-underline::after {
+    content: '';
+    @apply absolute -bottom-0.5 left-0 h-px w-0 bg-accent transition-all duration-300;
+  }
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+
+  /* Bouton principal (CTA) */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-night-950 transition-all duration-300 hover:shadow-glow;
+  }
+
+  /* Bouton secondaire (contour) */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white/85 transition-all duration-300 hover:border-accent/60 hover:text-white;
+  }
+}
+
+@layer utilities {
+  /* Texte en dégradé d'accent */
+  .text-gradient {
+    @apply bg-accent-gradient bg-clip-text text-transparent;
+  }
+
+  /* Dégradé blanc -> gris pour les gros titres */
+  .text-gradient-light {
+    background: linear-gradient(180deg, #ffffff 10%, rgb(255 255 255 / 0.45) 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Masque radial (halo autour du curseur / des fonds) */
+  .mask-radial {
+    -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 40%, #000 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 60% 60% at 50% 40%, #000 40%, transparent 100%);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
