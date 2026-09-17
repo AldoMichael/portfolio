@@ -1,5 +1,6 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { ArrowDown, Download, Mail, MapPin, Sparkles } from 'lucide-react'
+import { useRef } from 'react'
 import { AnimatedBackground } from '../components/AnimatedBackground'
 import { Magnetic } from '../components/Magnetic'
 import { Typewriter } from '../components/Typewriter'
@@ -7,6 +8,7 @@ import { useContent } from '../context/ContentContext'
 import { profile } from '../data/portfolio'
 import { useCvUrl } from '../hooks/useCvUrl'
 import { useProfilePhoto } from '../hooks/useProfilePhoto'
+import { useCutoutPhoto } from '../hooks/useCutoutPhoto'
 import { EASE } from '../lib/motion'
 
 /**
@@ -28,18 +30,29 @@ export function Hero() {
   // Accroche et statut de disponibilité gérés depuis le CMS
   const { settings } = useContent()
   const { src: photoSrc, show: showPhoto, onError } = useProfilePhoto()
+  const { src: cutoutSrc, show: showCutout, onError: onCutoutError } = useCutoutPhoto(
+    showPhoto ? photoSrc : null,
+  )
   const cvUrl = useCvUrl()
+  const sectionRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  })
+  const photoX = useTransform(scrollYProgress, [0, 1], ['12%', '-55%'])
+  const photoXSmooth = useSpring(photoX, { stiffness: 80, damping: 26, restDelta: 0.001 })
 
   return (
     <section
       id="accueil"
-      className="relative flex min-h-[100svh] items-center overflow-hidden pb-20 pt-32"
+      ref={sectionRef}
+      className="relative flex min-h-[100svh] items-center overflow-hidden pb-8 pt-28 sm:pb-12 sm:pt-32"
     >
       <AnimatedBackground />
 
       <div className="container-page relative z-10">
-        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,28rem)] lg:gap-16">
-        <div className="min-w-0">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(16rem,28rem)] lg:gap-12 xl:grid-cols-[minmax(0,1.25fr)_minmax(18rem,30rem)]">
+        <div className="relative z-20 min-w-0">
           {/* Badge de disponibilité */}
           <motion.div
             initial={reduceMotion ? undefined : { opacity: 0, y: 16 }}
@@ -66,7 +79,7 @@ export function Hero() {
                 className={`block ${
                   lineIndex === 0
                     ? 'text-display-xl'
-                    : 'text-[clamp(1.5rem,5vw,4.25rem)] leading-[1.05] tracking-tight'
+                    : 'text-[clamp(1.55rem,3.4vw,2.85rem)] leading-[1.12] tracking-tight'
                 }`}
               >
                 {line.map(({ word, letters }, wordIndex) => (
@@ -162,25 +175,24 @@ export function Hero() {
           </motion.div>
         </div>
 
-          {showPhoto && (
+          {showCutout && (
             <motion.div
-              initial={reduceMotion ? undefined : { opacity: 0, x: 32, scale: 0.96 }}
-              animate={reduceMotion ? undefined : { opacity: 1, x: 0, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.45, ease: EASE }}
-              className="relative mx-auto w-full max-w-md max-lg:order-first lg:mx-0 lg:max-w-none"
+              initial={reduceMotion ? undefined : { opacity: 0, y: 48, scale: 0.92 }}
+              animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.95, delay: 0.35, ease: EASE }}
+              className="relative z-10 mx-auto w-full max-w-sm max-lg:order-first lg:max-w-none"
             >
-              <div
-                aria-hidden
-                className="absolute -inset-6 rounded-[2.25rem] bg-accent/20 blur-3xl"
+              <motion.img
+                src={cutoutSrc!}
+                alt={`Portrait de ${profile.fullName}`}
+                onError={(event) => {
+                  onCutoutError()
+                  onError()
+                  event.currentTarget.style.visibility = 'hidden'
+                }}
+                style={reduceMotion ? undefined : { x: photoXSmooth }}
+                className="relative mx-auto h-auto max-h-[min(38rem,72vh)] w-full origin-bottom object-contain object-bottom drop-shadow-[0_28px_50px_rgb(0_0_0_/_0.5)] lg:max-h-[min(44rem,78vh)]"
               />
-              <div className="relative overflow-hidden rounded-[2rem] border border-accent/30 bg-page-2 shadow-glow">
-                <img
-                  src={photoSrc!}
-                  alt={`Portrait de ${profile.fullName}`}
-                  onError={onError}
-                  className="aspect-[4/5] h-auto w-full object-cover"
-                />
-              </div>
             </motion.div>
           )}
         </div>

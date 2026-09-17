@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { profile } from '../data/portfolio'
 import { useContent } from '../context/ContentContext'
 import { useProfilePhoto } from '../hooks/useProfilePhoto'
+import { useCutoutPhoto } from '../hooks/useCutoutPhoto'
 import { EASE } from '../lib/motion'
 
 type LoaderProps = {
@@ -19,6 +20,7 @@ export function Loader({ onComplete }: LoaderProps) {
   const [progress, setProgress] = useState(0)
   const { loading: contentLoading } = useContent()
   const { src: photoSrc, show: showPhoto, onError } = useProfilePhoto()
+  const { src: cutoutSrc, show: showCutout } = useCutoutPhoto(showPhoto ? photoSrc : null)
 
   useEffect(() => {
     if (reduceMotion) {
@@ -59,17 +61,23 @@ export function Loader({ onComplete }: LoaderProps) {
         className="relative flex flex-col items-center gap-6"
       >
         {/* Photo de profil (ou initiales en repli), plus grande qu'un monogramme */}
-        <div className="relative flex h-52 w-52 items-center justify-center sm:h-64 sm:w-64">
-          <span className="absolute inset-0 animate-pulse-ring rounded-full border border-accent/50" />
-          {showPhoto ? (
-            <img
-              src={photoSrc!}
+        <div className="relative flex h-64 w-64 items-center justify-center sm:h-80 sm:w-80">
+          {showCutout ? (
+            <motion.img
+              src={cutoutSrc!}
               alt=""
               onError={onError}
-              className="relative h-full w-full rounded-full border-2 border-accent/40 object-cover shadow-glow-sm"
+              initial={{ opacity: 0, scale: 0.9, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
+              transition={{
+                opacity: { duration: 0.6, ease: EASE },
+                scale: { duration: 0.6, ease: EASE },
+                y: { duration: 4.5, repeat: Infinity, ease: 'easeInOut' },
+              }}
+              className="relative h-full w-full object-contain object-bottom drop-shadow-[0_18px_28px_rgb(0_0_0_/_0.4)]"
             />
           ) : (
-            <span className="relative flex h-full w-full items-center justify-center rounded-full border border-accent/30 bg-accent/10 font-display text-4xl font-bold text-accent sm:text-5xl">
+            <span className="relative flex h-full w-full items-center justify-center font-display text-4xl font-bold text-accent sm:text-5xl">
               {profile.initials}
             </span>
           )}
